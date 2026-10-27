@@ -1,0 +1,30 @@
+---
+title: "surface-diff"
+summary: "Watches an org's external attack surface and alerts only on the delta: new hosts, new ports, new certs."
+year: 2025
+stack: ["Go", "SQLite", "cron"]
+tags: ["tem", "automation"]
+repo: "https://github.com/4yru5/surface-diff"
+featured: true
+order: 2
+---
+
+> Placeholder case study — replace with your real write-up.
+
+## Problem
+
+Attack-surface scans are noisy. The signal a defender wants is not the full
+inventory but what *changed* since yesterday.
+
+## Approach
+
+`surface-diff` snapshots resolved hosts, open ports and certificate metadata on
+a schedule, stores each run, and emits only the diff to a webhook.
+
+## Architecture
+
+A single Go binary, a SQLite state file, and a cron trigger. No server to run.
+
+## Results
+
+Turned a daily inventory dump into a short, actionable change feed.

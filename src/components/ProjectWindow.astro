@@ -1,0 +1,115 @@
+---
+// Scene 5 — one project as a draggable macOS window (plan §4/§5).
+// Plays a short terminal demo; click the title morphs into the case study via
+// a cross-document View Transition (view-transition-name shared with the
+// case-study header on /work/[slug]).
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  index: number;
+}
+const { project, index } = Astro.props;
+const { title, summary, stack, repo, demo } = project.data;
+const slug = project.id;
+const vt = `vt-${slug}`;
+---
+
+<article
+  class="win project-window"
+  data-drag
+  data-slug={slug}
+  style={`view-transition-name:${vt}; --i:${index}`}
+>
+  <div class="win__bar">
+    <span class="win__lights" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="win__title">{title} — demo.sh</span>
+  </div>
+
+  <div class="project-window__body">
+    {demo ? (
+      <video
+        class="project-window__demo"
+        src={demo}
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-label={`${title} terminal demo`}
+      ></video>
+    ) : (
+      <pre class="project-window__term mono" aria-hidden="true"><code><span class="p-prompt">$</span> {title} --run
+<span class="p-dim"># {summary}</span>
+<span class="p-ok">✓</span> ready</code></pre>
+    )}
+
+    <div class="project-window__meta">
+      <h3 class="project-window__title">
+        <a href={`/work/${slug}`}>{title}</a>
+      </h3>
+      <p class="project-window__summary">{summary}</p>
+      <ul class="project-window__stack" aria-label="Stack">
+        {stack.map((s) => <li class="pill">{s}</li>)}
+      </ul>
+      <div class="project-window__links">
+        <a class="project-window__link" href={`/work/${slug}`}>case study →</a>
+        {repo && (
+          <a class="project-window__link" href={repo} target="_blank" rel="noopener">repo ↗</a>
+        )}
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  .project-window {
+    width: min(420px, 90vw);
+    cursor: default;
+  }
+  .project-window__body { background: var(--panel); }
+  .project-window__demo,
+  .project-window__term {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: 0;
+    background: #0a0a0a;
+    color: #e6e6e6;
+    object-fit: cover;
+    display: block;
+  }
+  .project-window__term {
+    padding: 1rem;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    border-bottom: 1px solid var(--line);
+    white-space: pre-wrap;
+  }
+  .p-prompt { color: var(--accent); }
+  .p-dim { color: #888; }
+  .p-ok { color: var(--accent); }
+
+  .project-window__meta { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .project-window__title { font-size: var(--fs-md); }
+  .project-window__summary { font-size: var(--fs-sm); color: var(--ink-3); margin: 0; }
+  .project-window__stack { list-style: none; display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.2rem 0 0; padding: 0; }
+  .project-window__links { display: flex; gap: 1rem; margin-top: 0.4rem; }
+  .project-window__link { font-family: var(--font-mono); font-size: var(--fs-xs); }
+</style>
+
+<script>
+  // play the demo only while the window is on screen (perf budget, plan §8)
+  const vids = document.querySelectorAll<HTMLVideoElement>('.project-window__demo');
+  if (vids.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting) v.play().catch(() => {});
+          else v.pause();
+        }
+      },
+      { threshold: 0.4 }
+    );
+    vids.forEach((v) => io.observe(v));
+  }
+</script>

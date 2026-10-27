@@ -1,0 +1,66 @@
+---
+// Scene 5 — Projects & tools (plan §4).
+// Draggable windows on wide screens (scattered, tidy grid underneath);
+// stacked cards on mobile. Data from the projects collection.
+import { getCollection } from 'astro:content';
+import ProjectWindow from './ProjectWindow.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order || b.data.year - a.data.year
+);
+---
+
+<section id="projects" class="projects section">
+  <div class="wrap">
+    <p class="eyebrow reveal">projects &amp; tools</p>
+    <h2 class="projects__title reveal">What I build between findings.</h2>
+    <p class="projects__note mono reveal" aria-hidden="true">
+      // drag the windows around · click a title to open the case study
+    </p>
+
+    <div class="projects__stage reveal-stagger" data-drag-bounds>
+      {projects.map((project, i) => (
+        <ProjectWindow project={project} index={i} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects__title { font-size: var(--fs-lg); max-width: 18ch; margin: 0.75rem 0 0.4rem; }
+  .projects__note { color: var(--ink-4); font-size: var(--fs-xs); margin: 0 0 2rem; }
+
+  /* mobile / reduced default: a tidy responsive grid (plan: stacked on mobile) */
+  .projects__stage {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: clamp(1rem, 2vw, 1.75rem);
+    align-items: start;
+  }
+
+  /* wide screens: a free "desktop" the windows can be dragged across */
+  @media (min-width: 860px) and (prefers-reduced-motion: no-preference) {
+    .projects__stage {
+      position: relative;
+      display: block;
+      min-height: 680px;
+    }
+    .projects__stage :global(.project-window) {
+      position: absolute;
+    }
+    /* scatter them, offset by --i; drag takes over from here */
+    .projects__stage :global(.project-window:nth-child(1)) { top: 0; left: 0; transform: rotate(-1deg); }
+    .projects__stage :global(.project-window:nth-child(2)) { top: 40px; left: 44%; transform: rotate(1.5deg); }
+    .projects__stage :global(.project-window:nth-child(3)) { top: 300px; left: 10%; transform: rotate(0.8deg); }
+    .projects__stage :global(.project-window:nth-child(4)) { top: 330px; left: 52%; transform: rotate(-1.5deg); }
+    .projects__stage :global(.project-window:nth-child(5)) { top: 120px; left: 26%; transform: rotate(2deg); }
+    .projects__stage :global(.project-window:nth-child(6)) { top: 430px; left: 32%; transform: rotate(-0.6deg); }
+  }
+</style>
+
+<script>
+  // GSAP draggable windows load lazily, only where the desktop exists
+  if (matchMedia('(min-width: 860px) and (prefers-reduced-motion: no-preference)').matches) {
+    import('../islands/draggable-windows.ts');
+  }
+</script>

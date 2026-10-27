@@ -1,0 +1,59 @@
+[
+  {
+    "id": "llm-ctf-5th",
+    "date": "2026-02",
+    "kind": "ctf",
+    "title": "5th globally — LLM Capture the Flag",
+    "org": "Global LLM CTF",
+    "link": "https://medium.com/@4yru5/llm-ctf",
+    "highlight": true
+  },
+  {
+    "id": "orbia-senior-analyst",
+    "date": "2026-01",
+    "kind": "role",
+    "title": "Senior Analyst, Threat Exposure Management",
+    "org": "Orbia",
+    "highlight": false
+  },
+  {
+    "id": "bugbounty-critical-2024",
+    "date": "2024-06",
+    "kind": "award",
+    "title": "Bug bounty — critical access-control finding disclosed",
+    "org": "Private program",
+    "highlight": false
+  },
+  {
+    "id": "web-ctf-top25",
+    "date": "2023-09",
+    "kind": "ctf",
+    "title": "Top-25 finish — web exploitation CTF",
+    "org": "CTF",
+    "highlight": false
+  },
+  {
+    "id": "first-cve",
+    "date": "2022-05",
+    "kind": "award",
+    "title": "First CVE credited",
+    "org": "MITRE",
+    "highlight": false
+  },
+  {
+    "id": "security-analyst",
+    "date": "2021-03",
+    "kind": "role",
+    "title": "Security Analyst",
+    "org": "Earlier role",
+    "highlight": false
+  },
+  {
+    "id": "started-research",
+    "date": "2019-06",
+    "kind": "education",
+    "title": "Started in security research",
+    "org": "",
+    "highlight": false
+  }
+]

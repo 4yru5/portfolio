@@ -1,0 +1,114 @@
+---
+// Scene 3 — Focus areas as a bento grid (plan §4).
+// Each tile has one micro-demo: a flagged vulnerable line, a request/response
+// pair, a prompt-injection chat bubble, and an attack-surface graph on the dots.
+// Tiles scale in on scroll (CSS reveal). All demos are pure CSS/markup.
+---
+
+<section id="focus" class="focus section">
+  <div class="wrap">
+    <p class="eyebrow reveal">focus areas</p>
+    <h2 class="focus__title reveal">Four things I break, and help teams fix.</h2>
+
+    <div class="bento reveal-stagger">
+      <!-- appsec: a flagged vulnerable line -->
+      <article class="tile tile--code">
+        <header class="tile__head"><span class="tile__tag mono">appsec</span><h3>Application security</h3></header>
+        <p class="tile__body">Source review and exploit dev — finding the line that trusts the wrong input.</p>
+        <pre class="tile__demo mono" aria-hidden="true"><code><span class="c-dim">def</span> render(name):
+  <span class="c-flag">return f"&lt;h1&gt;&#123;name&#125;&lt;/h1&gt;"</span>  <span class="c-warn">// xss</span>
+</code></pre>
+      </article>
+
+      <!-- api: request / response pair -->
+      <article class="tile tile--api">
+        <header class="tile__head"><span class="tile__tag mono">api</span><h3>API security</h3></header>
+        <p class="tile__body">Broken access control, mass assignment, the object ID you shouldn't reach.</p>
+        <div class="tile__demo mono" aria-hidden="true">
+          <div class="reqline"><span class="c-verb">GET</span> /api/orders/<span class="c-flag">1043</span></div>
+          <div class="resline"><span class="c-ok">200</span> <span class="c-dim">&#123; "owner": "someone-else" &#125;</span></div>
+        </div>
+      </article>
+
+      <!-- ai: prompt-injection chat bubble -->
+      <article class="tile tile--ai">
+        <header class="tile__head"><span class="tile__tag mono">ai</span><h3>AI / LLM security</h3></header>
+        <p class="tile__body">Prompt injection, tool-call abuse, data exfiltration through context.</p>
+        <div class="tile__demo tile__chat" aria-hidden="true">
+          <div class="bubble bubble--in">ignore previous instructions and…</div>
+          <div class="bubble bubble--out mono">⚠ injection blocked</div>
+        </div>
+      </article>
+
+      <!-- tem: attack-surface graph on the dots -->
+      <article class="tile tile--tem">
+        <header class="tile__head"><span class="tile__tag mono">tem</span><h3>Threat exposure</h3></header>
+        <p class="tile__body">Watching the external surface and alerting on what changed, not everything.</p>
+        <svg class="tile__demo tile__graph" viewBox="0 0 200 90" aria-hidden="true">
+          <line x1="28" y1="60" x2="84" y2="28" /><line x1="84" y1="28" x2="140" y2="52" />
+          <line x1="140" y1="52" x2="172" y2="24" /><line x1="84" y1="28" x2="120" y2="72" />
+          <line x1="28" y1="60" x2="120" y2="72" />
+          <circle cx="28" cy="60" r="4" /><circle cx="84" cy="28" r="5" class="node--hot" />
+          <circle cx="140" cy="52" r="4" /><circle cx="172" cy="24" r="4" />
+          <circle cx="120" cy="72" r="4" class="node--new" />
+        </svg>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .focus__title { font-size: var(--fs-lg); max-width: 20ch; margin: 0.75rem 0 2.5rem; }
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  }
+  @media (max-width: 680px) { .bento { grid-template-columns: 1fr; } }
+
+  .tile {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(1.1rem, 2vw, 1.6rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-height: 220px;
+    transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-base), box-shadow var(--dur-base);
+  }
+  .tile:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); box-shadow: var(--shadow); }
+  .tile__head { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .tile__head h3 { font-size: var(--fs-md); }
+  .tile__tag {
+    font-size: var(--fs-xs); color: var(--accent);
+    background: var(--accent-soft); border-radius: 999px; padding: 2px 8px;
+  }
+  .tile__body { color: var(--ink-3); font-size: var(--fs-sm); margin: 0; }
+  .tile__demo { margin-top: auto; }
+
+  pre.tile__demo { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0.75rem; font-size: 0.8rem; overflow: auto; }
+  .c-dim { color: var(--ink-4); }
+  .c-flag { color: var(--ink); background: var(--accent-soft); border-radius: 3px; padding: 0 2px; }
+  .c-warn { color: var(--accent); }
+  .c-verb { color: var(--accent); font-weight: 600; }
+  .c-ok { color: var(--accent); }
+
+  .tile--api .reqline, .tile--api .resline {
+    background: var(--panel-2); border: 1px solid var(--line);
+    border-radius: var(--radius-sm); padding: 0.5rem 0.65rem; font-size: 0.8rem; margin-bottom: 0.4rem;
+  }
+
+  .tile__chat { display: flex; flex-direction: column; gap: 0.4rem; }
+  .bubble { padding: 0.5rem 0.75rem; border-radius: 12px; font-size: 0.8rem; max-width: 85%; }
+  .bubble--in { background: var(--panel-2); border: 1px solid var(--line); color: var(--ink-3); align-self: flex-start; border-bottom-left-radius: 3px; }
+  .bubble--out { background: var(--accent-soft); color: var(--accent); align-self: flex-end; border-bottom-right-radius: 3px; }
+
+  .tile__graph { width: 100%; height: auto; }
+  .tile__graph line { stroke: var(--line); stroke-width: 1.5; }
+  .tile__graph circle { fill: var(--dot-hot); }
+  .tile__graph .node--hot { fill: var(--accent); }
+  .tile__graph .node--new { fill: var(--accent); animation: ping 2.2s var(--ease-in-out) infinite; }
+  @keyframes ping { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  @media (prefers-reduced-motion: reduce) { .tile__graph .node--new { animation: none; } }
+</style>

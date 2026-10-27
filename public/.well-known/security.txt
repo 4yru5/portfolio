@@ -1,0 +1,8 @@
+# Security contact (RFC 9116) — a signal any security reviewer will check.
+# Update the contact, dates and keys before launch.
+
+Contact: mailto:suryaravi.in@gmail.com
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://4yru5.dev/.well-known/security.txt
+# Encryption: https://4yru5.dev/pgp-key.txt

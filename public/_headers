@@ -1,0 +1,24 @@
+# Cloudflare / Netlify _headers — security headers (plan §7).
+# Target: A+ on securityheaders.com and Mozilla Observatory.
+#
+# The Content-Security-Policy's script-src/style-src (with per-build hashes for
+# inline scripts/styles) is emitted by Astro as a <meta> tag — see the `csp`
+# block in astro.config.mjs, so it needs no maintenance here. This file adds the
+# directives a <meta> CSP cannot express (frame-ancestors) plus the other
+# security headers. (scripts/csp-hash.mjs remains if you ever move CSP fully to
+# headers instead of meta.)
+
+/*
+  Content-Security-Policy: frame-ancestors 'none'
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Cross-Origin-Opener-Policy: same-origin
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable

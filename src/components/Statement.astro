@@ -1,0 +1,42 @@
+---
+// Scene 2 — Statement (plan §4). Pinned; words light up one by one (GSAP).
+// A caret blinks at the end, as in a terminal.
+---
+
+<section id="statement" class="statement section" data-scene="statement">
+  <div class="wrap">
+    <p class="eyebrow">the work, in one line</p>
+    <h2 class="statement__text">
+      I study how systems fail and how trust breaks<span class="statement__caret" aria-hidden="true"></span>
+    </h2>
+  </div>
+</section>
+
+<style>
+  .statement {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+  }
+  .statement__text {
+    font-size: var(--fs-xl);
+    font-weight: 600;
+    line-height: 1.1;
+    max-width: 18ch;
+    margin-top: 1rem;
+    letter-spacing: -0.03em;
+  }
+  /* the per-word spans are created by SplitText; give the fallback colour */
+  .statement__text :global(.word) { color: var(--ink); }
+  .statement__caret {
+    display: inline-block;
+    width: 0.5ch;
+    height: 0.9em;
+    margin-left: 0.15ch;
+    background: var(--accent);
+    vertical-align: -0.08em;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .statement__caret { animation: none; } }
+</style>

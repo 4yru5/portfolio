@@ -1,0 +1,181 @@
+---
+// Scene 8 — After hours / Miscellany (plan §4).
+// The person behind the work: a Rubik's cube that scrambles & solves on click,
+// a chess puzzle window, a "now playing" guitar widget, a surf note, kaomoji
+// stickers. HeyClicky playfulness is concentrated here (plan §2).
+---
+
+<section id="desktop" class="desktop section" data-drag-bounds>
+  <div class="wrap">
+    <p class="eyebrow reveal">after hours</p>
+    <h2 class="desktop__title reveal">The person behind the work.</h2>
+  </div>
+
+  <div class="desktop__stage">
+    <!-- Rubik's cube -->
+    <div class="win deskwin deskwin--cube" data-drag>
+      <div class="win__bar"><span class="win__lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="win__title">cube.app</span></div>
+      <div class="deskwin__body cube-stage">
+        <button class="cube" type="button" aria-label="Scramble and solve the cube">
+          <span class="cube__face cube__face--front"></span>
+          <span class="cube__face cube__face--back"></span>
+          <span class="cube__face cube__face--right"></span>
+          <span class="cube__face cube__face--left"></span>
+          <span class="cube__face cube__face--top"></span>
+          <span class="cube__face cube__face--bottom"></span>
+        </button>
+        <p class="cube__hint mono">click to scramble · solves in 3…</p>
+      </div>
+    </div>
+
+    <!-- chess puzzle -->
+    <div class="win deskwin deskwin--chess" data-drag>
+      <div class="win__bar"><span class="win__lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="win__title">chess · mate in 1</span></div>
+      <div class="deskwin__body">
+        <div class="board" aria-label="Chess puzzle, white to move, mate in one">
+          {Array.from({ length: 64 }).map((_, i) => {
+            const r = Math.floor(i / 8);
+            const dark = (r + i) % 2 === 1;
+            const hot = i === 11 || i === 29; // highlighted move squares
+            const piece = i === 11 ? '♕' : i === 4 ? '♚' : '';
+            return (
+              <span class={`sq ${dark ? 'sq--d' : ''} ${hot ? 'sq--hot' : ''}`}>{piece}</span>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+
+    <!-- now playing: guitar -->
+    <div class="win deskwin deskwin--music" data-drag>
+      <div class="win__bar"><span class="win__lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="win__title">now playing</span></div>
+      <div class="deskwin__body music">
+        <div class="music__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div>
+          <p class="music__song">unplugged, late</p>
+          <p class="music__by mono">guitar · six strings</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- surf note -->
+    <div class="win deskwin deskwin--surf" data-drag>
+      <div class="win__bar"><span class="win__lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="win__title">surf-report.txt</span></div>
+      <div class="deskwin__body surf mono">
+        <p>swell: 3ft · clean</p>
+        <p>wind: offshore</p>
+        <p class="surf__wave" aria-hidden="true">🌊 ~~~~~~~~</p>
+      </div>
+    </div>
+
+    <!-- kaomoji stickers -->
+    <span class="sticker sticker--1 mono" aria-hidden="true">¯\\_(ツ)_/¯</span>
+    <span class="sticker sticker--2 mono" aria-hidden="true">(•_•) → (⌐■_■)</span>
+  </div>
+</section>
+
+<style>
+  .desktop__title { font-size: var(--fs-lg); margin: 0.75rem 0 2.5rem; }
+  .desktop__stage {
+    position: relative;
+    max-width: var(--maxw);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    align-items: start;
+  }
+  @media (min-width: 860px) and (prefers-reduced-motion: no-preference) {
+    .desktop__stage { display: block; min-height: 520px; }
+    .deskwin { position: absolute; }
+    .deskwin--cube { top: 0; left: 2%; }
+    .deskwin--chess { top: 30px; left: 34%; }
+    .deskwin--music { top: 280px; left: 8%; }
+    .deskwin--surf { top: 250px; left: 48%; }
+  }
+  .deskwin { width: min(300px, 90vw); }
+  .deskwin__body { padding: 1rem; background: var(--panel); }
+
+  /* ---- Rubik's cube (CSS 3D) ---- */
+  .cube-stage { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; padding: 1.75rem 1rem 1.25rem; perspective: 600px; }
+  .cube {
+    position: relative;
+    width: 86px; height: 86px;
+    transform-style: preserve-3d;
+    transform: rotateX(-24deg) rotateY(-32deg);
+    background: transparent; border: 0; cursor: pointer; padding: 0;
+    animation: cube-idle 14s linear infinite;
+  }
+  .cube.is-scrambling { animation: cube-scramble 2.8s var(--ease-in-out) forwards; }
+  .cube__face {
+    position: absolute; inset: 0;
+    display: block;
+    border: 2px solid rgba(0,0,0,.4);
+    border-radius: 8px;
+    background-color: var(--fc, #2ee07a);
+    background-image:
+      linear-gradient(90deg, rgba(0,0,0,.4) 2px, transparent 0),
+      linear-gradient(rgba(0,0,0,.4) 2px, transparent 0);
+    background-size: 33.33% 33.33%;
+    background-position: -1px -1px;
+    opacity: 0.96;
+  }
+  .cube__face--front  { --fc:#2ee07a; transform: translateZ(43px); }
+  .cube__face--back   { --fc:#febc2e; transform: rotateY(180deg) translateZ(43px); }
+  .cube__face--right  { --fc:#ff5f57; transform: rotateY(90deg) translateZ(43px); }
+  .cube__face--left   { --fc:#4a9eff; transform: rotateY(-90deg) translateZ(43px); }
+  .cube__face--top    { --fc:#ffffff; transform: rotateX(90deg) translateZ(43px); }
+  .cube__face--bottom { --fc:#ffd23f; transform: rotateX(-90deg) translateZ(43px); }
+  @keyframes cube-idle { to { transform: rotateX(-24deg) rotateY(336deg); } }
+  @keyframes cube-scramble {
+    0% { transform: rotateX(-24deg) rotateY(-32deg); }
+    30% { transform: rotateX(56deg) rotateY(124deg) rotateZ(40deg); }
+    60% { transform: rotateX(-120deg) rotateY(220deg) rotateZ(-30deg); }
+    100% { transform: rotateX(-24deg) rotateY(-32deg); }
+  }
+  @media (prefers-reduced-motion: reduce) { .cube { animation: none; } .cube.is-scrambling { animation: none; } }
+  .cube__hint { font-size: var(--fs-xs); color: var(--ink-4); }
+
+  /* ---- chess ---- */
+  .board { width: 100%; aspect-ratio: 1; display: grid; grid-template-columns: repeat(8, 1fr); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .sq { display: grid; place-items: center; font-size: clamp(0.9rem, 3vw, 1.3rem); color: var(--ink); background: var(--panel-2); }
+  .sq--d { background: color-mix(in srgb, var(--ink) 12%, var(--panel-2)); }
+  .sq--hot { box-shadow: inset 0 0 0 2px var(--accent); }
+
+  /* ---- music ---- */
+  .music { display: flex; align-items: center; gap: 1rem; }
+  .music__eq { display: flex; align-items: flex-end; gap: 3px; height: 32px; }
+  .music__eq i { width: 4px; background: var(--accent); border-radius: 2px; animation: eq 1s var(--ease-in-out) infinite; }
+  .music__eq i:nth-child(1){ animation-delay: 0s; height: 40%; }
+  .music__eq i:nth-child(2){ animation-delay: .2s; height: 80%; }
+  .music__eq i:nth-child(3){ animation-delay: .4s; height: 55%; }
+  .music__eq i:nth-child(4){ animation-delay: .1s; height: 95%; }
+  .music__eq i:nth-child(5){ animation-delay: .3s; height: 65%; }
+  @keyframes eq { 0%,100%{ transform: scaleY(.4);} 50%{ transform: scaleY(1);} }
+  @media (prefers-reduced-motion: reduce) { .music__eq i { animation: none; } }
+  .music__song { font-size: var(--fs-sm); font-weight: 600; margin: 0; }
+  .music__by { font-size: var(--fs-xs); color: var(--ink-3); margin: 0.15rem 0 0; }
+
+  /* ---- surf ---- */
+  .surf p { font-size: var(--fs-sm); color: var(--ink-2); margin: 0 0 0.35rem; }
+  .surf__wave { color: var(--accent); }
+
+  /* ---- stickers ---- */
+  .sticker { color: var(--ink-3); font-size: var(--fs-sm); }
+  @media (min-width: 860px) {
+    .sticker { position: absolute; }
+    .sticker--1 { top: 150px; left: 70%; transform: rotate(-6deg); }
+    .sticker--2 { top: 420px; left: 64%; transform: rotate(4deg); }
+  }
+  @media (max-width: 859px) { .sticker { display: inline-block; margin: 0.5rem 1rem 0 0; } }
+</style>
+
+<script>
+  const cube = document.querySelector<HTMLButtonElement>('.cube');
+  cube?.addEventListener('click', () => {
+    if (cube.classList.contains('is-scrambling')) return;
+    cube.classList.add('is-scrambling');
+    setTimeout(() => cube.classList.remove('is-scrambling'), 2800);
+  });
+</script>

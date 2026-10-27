@@ -1,0 +1,92 @@
+---
+// Scene 6 — Experience & news (plan §4).
+// A vertical line that draws down as you scroll (GSAP scaleY); year markers in
+// monospace; CTF wins marked with a flag icon; highlights use the accent.
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('timeline')).sort((a, b) =>
+  b.data.date.localeCompare(a.data.date)
+);
+
+const icon: Record<string, string> = {
+  ctf: '⚑',
+  award: '★',
+  role: '▰',
+  education: '◇',
+};
+---
+
+<section id="timeline" class="timeline section">
+  <div class="wrap">
+    <p class="eyebrow reveal">experience &amp; news</p>
+    <h2 class="timeline__title reveal">Track record, 2019 to now.</h2>
+
+    <ol class="timeline__list">
+      <span class="timeline__rail" aria-hidden="true">
+        <span class="timeline__rail-fill" data-timeline-line></span>
+      </span>
+      {entries.map((e) => (
+        <li class={`tl ${e.data.highlight ? 'tl--hot' : ''} reveal`}>
+          <span class="tl__node mono" aria-hidden="true">{icon[e.data.kind] ?? '•'}</span>
+          <time class="tl__date mono" datetime={e.data.date}>{e.data.date}</time>
+          <div class="tl__body">
+            <h3 class="tl__role">
+              {e.data.link ? (
+                <a href={e.data.link} target="_blank" rel="noopener">{e.data.title} ↗</a>
+              ) : (
+                e.data.title
+              )}
+            </h3>
+            {e.data.org && <p class="tl__org">{e.data.org}</p>}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline__title { font-size: var(--fs-lg); margin: 0.75rem 0 2.5rem; }
+  .timeline__list { list-style: none; margin: 0; padding: 0; position: relative; }
+
+  .timeline__rail {
+    position: absolute;
+    left: 7px; top: 6px; bottom: 6px;
+    width: 2px;
+    background: var(--line);
+  }
+  .timeline__rail-fill {
+    position: absolute; inset: 0;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  /* no-JS / reduced motion: show the full line */
+  @media (prefers-reduced-motion: reduce) { .timeline__rail-fill { transform: none; } }
+
+  .tl {
+    position: relative;
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 0 1.5rem;
+    padding: 0 0 1.75rem 2.25rem;
+  }
+  @media (max-width: 560px) {
+    .tl { grid-template-columns: 1fr; gap: 0.25rem; }
+  }
+  .tl__node {
+    position: absolute;
+    left: 0; top: 2px;
+    width: 16px; height: 16px;
+    display: grid; place-items: center;
+    font-size: 0.7rem;
+    color: var(--ink-3);
+    background: var(--bg);
+    border-radius: 50%;
+  }
+  .tl--hot .tl__node { color: var(--accent); }
+  .tl__date { color: var(--ink-3); font-size: var(--fs-sm); padding-top: 0.1rem; }
+  .tl__role { font-size: var(--fs-md); font-weight: 600; }
+  .tl--hot .tl__role { color: var(--accent); }
+  .tl__org { color: var(--ink-3); font-size: var(--fs-sm); margin: 0.1rem 0 0; }
+</style>

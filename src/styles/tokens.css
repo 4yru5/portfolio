@@ -1,0 +1,134 @@
+/* ============================================================================
+   Design tokens — colour, type, motion.
+   Theme and dot-grid flip from these; no runtime CSS-in-JS (plan §6).
+   The theme is resolved on :root via a data-theme attribute set before first
+   paint (Base.astro inline script) and otherwise follows the OS preference.
+   ========================================================================== */
+
+:root {
+  /* --- Base surface + dot grid (plan §3) --- */
+  --bg: #ffffff;        /* pure white */
+  --dot: #d4d4d4;       /* light grey */
+  --dot-hot: #9a9a9a;   /* cursor spotlight */
+  --grid: 28px;         /* dot spacing */
+  --dot-r: 1.25px;      /* dot radius */
+
+  /* --- Text hierarchy (greys, plan §2) --- */
+  --ink: #111111;       /* primary text */
+  --ink-2: #3a3a3a;     /* secondary text */
+  --ink-3: #6b6b6b;     /* muted / meta */
+  --ink-4: #9a9a9a;     /* faint / placeholder */
+  --line: #e6e6e6;      /* hairlines, borders */
+  --panel: #ffffff;     /* window / card fill */
+  --panel-2: #f6f6f6;   /* inset / titlebar fill */
+  --panel-bar: rgba(255, 255, 255, 0.72); /* frosted menu bar */
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.10);
+  --shadow-lift: 0 2px 6px rgba(0,0,0,.06), 0 24px 60px rgba(0,0,0,.16);
+
+  /* --- Single accent: SIGNAL GREEN (plan §2 — links, focus, active only) --- */
+  --accent: #0b8a43;            /* AA on white */
+  --accent-hover: #097a3b;
+  --accent-soft: rgba(11, 138, 67, 0.12);
+  --accent-ink: #ffffff;        /* text on an accent fill */
+  --focus: var(--accent);
+
+  /* macOS traffic lights (same in both themes) */
+  --tl-red: #ff5f57;
+  --tl-amber: #febc2e;
+  --tl-green: #28c840;
+
+  /* --- Type (plan §2 — Geist display + Geist Mono accents) --- */
+  --font-display: "Geist", "Geist Fallback", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace,
+    SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* fluid display sizes: one idea per screen (plan §4) */
+  --fs-hero: clamp(3.25rem, 12vw, 16rem);
+  --fs-xl: clamp(2.25rem, 6vw, 5rem);
+  --fs-lg: clamp(1.75rem, 3.5vw, 3rem);
+  --fs-md: clamp(1.25rem, 2vw, 1.75rem);
+  --fs-body: clamp(1.0625rem, 1.1vw, 1.1875rem);
+  --fs-sm: 0.9375rem;
+  --fs-xs: 0.8125rem;
+  --lh-tight: 1.04;
+  --lh-snug: 1.22;
+  --lh-body: 1.6;
+  --tracking-tight: -0.02em;
+  --tracking-mono: 0.01em;
+
+  /* --- Layout --- */
+  --maxw: 1180px;
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --radius: 14px;
+  --radius-sm: 9px;
+  --radius-win: 12px;
+  --menubar-h: 38px;
+
+  /* --- Motion (plan §5) --- */
+  --ease-out: cubic-bezier(.16, 1, .3, 1);     /* entrances */
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1); /* state changes */
+  --dur-fast: 200ms;
+  --dur-base: 400ms;
+  --dur-slow: 800ms;
+  --stagger: 60ms;
+
+  color-scheme: light;
+}
+
+/* Dark mode follows the OS unless the user has forced light (plan §3 guards) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #000000;        /* pure black */
+    --dot: #2a2a2a;       /* dark grey */
+    --dot-hot: #5c5c5c;
+
+    --ink: #f2f2f2;
+    --ink-2: #c8c8c8;
+    --ink-3: #8f8f8f;
+    --ink-4: #5c5c5c;
+    --line: #1f1f1f;
+    --panel: #0c0c0c;
+    --panel-2: #141414;
+    --panel-bar: rgba(10, 10, 10, 0.68);
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px rgba(0,0,0,.6);
+    --shadow-lift: 0 2px 6px rgba(0,0,0,.6), 0 24px 60px rgba(0,0,0,.75);
+
+    --accent: #2ee07a;    /* bright signal green on black */
+    --accent-hover: #4aeb8e;
+    --accent-soft: rgba(46, 224, 122, 0.14);
+    --accent-ink: #04120a;
+
+    color-scheme: dark;
+  }
+}
+
+/* Explicit dark (user forced) — same values, no media query */
+:root[data-theme="dark"] {
+  --bg: #000000;
+  --dot: #2a2a2a;
+  --dot-hot: #5c5c5c;
+
+  --ink: #f2f2f2;
+  --ink-2: #c8c8c8;
+  --ink-3: #8f8f8f;
+  --ink-4: #5c5c5c;
+  --line: #1f1f1f;
+  --panel: #0c0c0c;
+  --panel-2: #141414;
+  --panel-bar: rgba(10, 10, 10, 0.68);
+  --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px rgba(0,0,0,.6);
+  --shadow-lift: 0 2px 6px rgba(0,0,0,.6), 0 24px 60px rgba(0,0,0,.75);
+
+  --accent: #2ee07a;
+  --accent-hover: #4aeb8e;
+  --accent-soft: rgba(46, 224, 122, 0.14);
+  --accent-ink: #04120a;
+
+  color-scheme: dark;
+}
+
+/* narrow screens tighten the grid (plan §3) */
+@media (max-width: 640px) {
+  :root { --grid: 24px; }
+}

@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import MenuBar from '../../components/MenuBar.astro';
+import TerminalFooter from '../../components/TerminalFooter.astro';
+
+const posts = (await getCollection('writing')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short' });
+---
+
+<Base title="Writing — Surya Ravi" description="Write-ups and notes on application, API and AI security.">
+  <MenuBar slot="menubar" />
+
+  <section class="section">
+    <div class="wrap">
+      <a class="mono writing-index__back" href="/">← home</a>
+      <p class="eyebrow">writing</p>
+      <h1 class="writing-index__title">Write-ups &amp; notes</h1>
+
+      <ul class="writing-index__tags" aria-label="All tags">
+        {allTags.map((t) => <li class="pill mono">#{t}</li>)}
+      </ul>
+
+      <ul class="writing-index__list">
+        {posts.map((post) => {
+          const href = post.data.external ?? `/writing/${post.id}`;
+          const ext = Boolean(post.data.external);
+          return (
+            <li class="wi-post">
+              <a href={href} target={ext ? '_blank' : undefined} rel={ext ? 'noopener' : undefined}>
+                <h2>{post.data.title} {ext && <span class="wi-ext">↗</span>}</h2>
+                {post.data.summary && <p>{post.data.summary}</p>}
+                <time class="mono" datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <TerminalFooter slot="footer" />
+</Base>
+
+<style>
+  .writing-index__back { display: inline-block; color: var(--ink-3); font-size: var(--fs-sm); margin-bottom: 2rem; }
+  .writing-index__title { font-size: var(--fs-xl); margin: 0.5rem 0 1.5rem; }
+  .writing-index__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 2.5rem; padding: 0; }
+  .writing-index__list { list-style: none; margin: 0; padding: 0; }
+  .wi-post { border-top: 1px solid var(--line); }
+  .wi-post:last-child { border-bottom: 1px solid var(--line); }
+  .wi-post a { display: block; padding: 1.5rem 0.25rem; color: var(--ink); }
+  .wi-post a:hover { text-decoration: none; padding-left: 0.75rem; }
+  .wi-post h2 { font-size: var(--fs-md); }
+  .wi-post p { color: var(--ink-3); font-size: var(--fs-sm); margin: 0.4rem 0; }
+  .wi-post time { color: var(--ink-4); font-size: var(--fs-xs); }
+  .wi-ext { color: var(--ink-4); font-size: 0.8em; }
+</style>

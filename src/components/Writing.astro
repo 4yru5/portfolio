@@ -1,0 +1,65 @@
+---
+// Scene 7 — Writing (plan §4). Large titles, hover lifts, tag chips, RSS link.
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short' });
+---
+
+<section id="writing" class="writing section">
+  <div class="wrap">
+    <div class="writing__head reveal">
+      <div>
+        <p class="eyebrow">writing</p>
+        <h2 class="writing__title">Write-ups &amp; notes.</h2>
+      </div>
+      <a class="btn" href="/rss.xml">RSS ↗</a>
+    </div>
+
+    <ul class="writing__list reveal-stagger">
+      {posts.map((post) => {
+        const href = post.data.external ?? `/writing/${post.id}`;
+        const ext = Boolean(post.data.external);
+        return (
+          <li class="post">
+            <a class="post__link" href={href} target={ext ? '_blank' : undefined} rel={ext ? 'noopener' : undefined}>
+              <div class="post__main">
+                <h3 class="post__title">{post.data.title} {ext && <span class="post__ext">↗</span>}</h3>
+                {post.data.summary && <p class="post__summary">{post.data.summary}</p>}
+                <ul class="post__tags" aria-label="Tags">
+                  {post.data.tags.map((t) => <li class="pill">{t}</li>)}
+                </ul>
+              </div>
+              <time class="post__date mono" datetime={post.data.date.toISOString()}>
+                {fmt(post.data.date)}
+              </time>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .writing__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  .writing__title { font-size: var(--fs-lg); margin-top: 0.75rem; }
+  .writing__list { list-style: none; margin: 0; padding: 0; }
+  .post { border-top: 1px solid var(--line); }
+  .post:last-child { border-bottom: 1px solid var(--line); }
+  .post__link {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 1.5rem; padding: 1.5rem 0.25rem;
+    color: var(--ink);
+    transition: padding-left var(--dur-base) var(--ease-out), color var(--dur-fast);
+  }
+  .post__link:hover { text-decoration: none; padding-left: 0.75rem; color: var(--accent); }
+  .post__title { font-size: var(--fs-md); font-weight: 600; }
+  .post__ext { color: var(--ink-4); font-size: 0.8em; }
+  .post__summary { color: var(--ink-3); font-size: var(--fs-sm); margin: 0.4rem 0 0; max-width: 60ch; }
+  .post__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.6rem 0 0; padding: 0; }
+  .post__date { color: var(--ink-4); font-size: var(--fs-sm); white-space: nowrap; padding-top: 0.3rem; }
+</style>

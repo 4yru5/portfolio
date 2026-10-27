@@ -1,0 +1,139 @@
+---
+// Scene 1 — Hero (plan §4).
+// Giant name that decodes 4YRU5 ⇄ SURYA, a "Hello my name is" sticker,
+// focus tags as pills, CV + GitHub buttons.
+const focus = ['appsec', 'api security', 'ai / llm', 'threat exposure'];
+---
+
+<section id="top" class="hero" data-scene="hero">
+  <div class="wrap hero__inner">
+    <p class="eyebrow hero__eyebrow reveal">security researcher</p>
+
+    <h1 class="hero__name">
+      <decode-text data-from="SURYA" data-to="4YRU5" class="hero__decode">4YRU5</decode-text>
+    </h1>
+
+    <div class="hero__sub reveal">
+      <p class="hero__lead">
+        Surya Ravi. I study how systems fail and how trust breaks —
+        across application security, APIs and AI.
+      </p>
+    </div>
+
+    <ul class="hero__tags reveal-stagger" aria-label="Focus areas">
+      {focus.map((f) => <li class="pill">{f}</li>)}
+    </ul>
+
+    <div class="hero__actions reveal">
+      <a class="btn btn--accent" href="/cv">View CV ↗</a>
+      <a class="btn" href="https://github.com/4yru5" target="_blank" rel="noopener">
+        GitHub ↗
+      </a>
+      <button class="btn" type="button" data-cmdk-open>
+        <kbd class="mono">⌘K</kbd> jump to…
+      </button>
+    </div>
+
+    <!-- "Hello my name is" sticker (HeyClicky touch, plan §2) -->
+    <div class="hero__sticker" aria-hidden="true">
+      <span class="hero__sticker-top mono">HELLO</span>
+      <span class="hero__sticker-mid">my name is</span>
+      <span class="hero__sticker-name">4YRU5</span>
+    </div>
+
+    <a href="#statement" class="hero__scroll mono reveal" aria-label="Scroll down">
+      <span>scroll</span>
+      <span class="hero__scroll-arrow">↓</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-top: var(--menubar-h);
+  }
+  .hero__inner { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; }
+  .hero__eyebrow { font-size: var(--fs-sm); }
+
+  .hero__name {
+    font-size: var(--fs-hero);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    margin: 0;
+  }
+  .hero__decode {
+    display: inline-block;
+    cursor: pointer;
+    font-variant-ligatures: none;
+    background: linear-gradient(180deg, var(--ink), var(--ink-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    outline-offset: 8px;
+  }
+  .hero__decode:hover { background: linear-gradient(180deg, var(--accent), var(--accent-hover)); -webkit-background-clip: text; background-clip: text; }
+
+  .hero__sub { max-width: 46ch; }
+  .hero__lead { font-size: var(--fs-md); color: var(--ink-2); line-height: var(--lh-snug); }
+
+  .hero__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.25rem 0 0; padding: 0; }
+
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.5rem; }
+  .hero__actions kbd { font-size: 0.85em; }
+
+  /* name-tag sticker, pinned top-right of the hero on wide screens */
+  .hero__sticker {
+    position: absolute;
+    top: calc(var(--menubar-h) + clamp(1rem, 6vh, 4rem));
+    right: var(--gutter);
+    width: 190px;
+    background: #fff;
+    color: #111;
+    border-radius: 6px;
+    box-shadow: var(--shadow-lift);
+    transform: rotate(4deg);
+    overflow: hidden;
+    text-align: center;
+    font-family: var(--font-display);
+    border: 1px solid rgba(0,0,0,.08);
+  }
+  .hero__sticker-top {
+    display: block;
+    background: #d6264f;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    padding: 0.4rem 0;
+    font-size: 0.9rem;
+  }
+  .hero__sticker-mid { display: block; font-size: 0.7rem; color: #555; padding-top: 0.5rem; }
+  .hero__sticker-name {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #111;
+    padding: 0.1rem 0 0.7rem;
+    border-bottom: 2px solid #d6264f;
+    margin: 0 0.8rem 0.5rem;
+  }
+  @media (max-width: 880px) { .hero__sticker { display: none; } }
+
+  .hero__scroll {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5ch;
+    font-size: var(--fs-xs);
+    color: var(--ink-3);
+    margin-top: 1.5rem;
+  }
+  .hero__scroll:hover { color: var(--accent); text-decoration: none; }
+  .hero__scroll-arrow { animation: bob 2s var(--ease-in-out) infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+  @media (prefers-reduced-motion: reduce) { .hero__scroll-arrow { animation: none; } }
+</style>

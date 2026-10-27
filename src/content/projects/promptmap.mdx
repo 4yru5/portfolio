@@ -1,0 +1,37 @@
+---
+title: "promptmap"
+summary: "Maps a chatbot's trust boundaries by replaying indirect prompt-injection payloads and scoring what leaks."
+year: 2026
+stack: ["Python", "httpx", "Rich"]
+tags: ["ai", "appsec"]
+repo: "https://github.com/4yru5/promptmap"
+featured: true
+order: 1
+---
+
+> Placeholder case study — replace the copy with your real write-up. The shape
+> (problem · approach · architecture · results) matches the plan's `/work/[slug]`.
+
+## Problem
+
+LLM features ship with no clear trust boundary: content from a document, a web
+page or another user can quietly become instructions. Testing that by hand is
+slow and inconsistent.
+
+## Approach
+
+`promptmap` drives a target chat endpoint with a library of indirect-injection
+payloads, then scores each response for signs of instruction-following,
+system-prompt disclosure and data exfiltration. Everything is replayable and
+diffable, so a regression shows up as a changed score.
+
+## Architecture
+
+A thin async client, a payload corpus grouped by technique (ASCII smuggling,
+tool-call hijack, context-window stuffing), and a scorer that produces a small
+JSON report plus a terminal table.
+
+## Results
+
+Reduced a full chatbot trust-boundary pass from ~half a day to a few minutes,
+with a reproducible artifact to attach to a report.

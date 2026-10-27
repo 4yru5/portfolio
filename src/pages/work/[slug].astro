@@ -1,0 +1,75 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import MenuBar from '../../components/MenuBar.astro';
+import TerminalFooter from '../../components/TerminalFooter.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, summary, stack, tags, repo, demo, year } = project.data;
+const vt = `vt-${project.id}`;
+---
+
+<Base title={`${title} — Surya Ravi`} description={summary}>
+  <MenuBar slot="menubar" />
+
+  <article class="case section">
+    <div class="wrap">
+      <a class="case__back mono" href="/#projects">← back to projects</a>
+
+      <!-- case-study header shares the view-transition-name with the window -->
+      <header class="case__header" data-slug={project.id} style={`view-transition-name:${vt}`}>
+        <p class="eyebrow">{year} · {tags.join(' · ')}</p>
+        <h1 class="case__title">{title}</h1>
+        <p class="case__summary">{summary}</p>
+        <div class="case__meta">
+          <ul class="case__stack" aria-label="Stack">
+            {stack.map((s) => <li class="pill">{s}</li>)}
+          </ul>
+          {repo && <a class="btn" href={repo} target="_blank" rel="noopener">repo ↗</a>}
+        </div>
+      </header>
+
+      {demo && (
+        <video class="case__demo win" src={demo} controls muted loop playsinline preload="metadata"></video>
+      )}
+
+      <div class="case__body prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <TerminalFooter slot="footer" />
+</Base>
+
+<style>
+  .case__back { display: inline-block; color: var(--ink-3); font-size: var(--fs-sm); margin-bottom: 2rem; }
+  .case__back:hover { color: var(--accent); text-decoration: none; }
+  .case__header { max-width: 60ch; margin-bottom: 2.5rem; }
+  .case__title { font-size: var(--fs-xl); margin: 0.75rem 0; }
+  .case__summary { font-size: var(--fs-md); color: var(--ink-2); }
+  .case__meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.25rem; }
+  .case__stack { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0; }
+  .case__demo { width: 100%; aspect-ratio: 16/9; margin: 0 0 3rem; background: #0a0a0a; }
+
+  .prose { max-width: 68ch; }
+  .prose :global(h2) { font-size: var(--fs-lg); margin: 2.5rem 0 1rem; }
+  .prose :global(h3) { font-size: var(--fs-md); margin: 2rem 0 0.75rem; }
+  .prose :global(p) { margin: 0 0 1.2rem; color: var(--ink-2); }
+  .prose :global(blockquote) {
+    border-left: 2px solid var(--accent);
+    padding-left: 1rem; margin: 1.5rem 0; color: var(--ink-3); font-style: italic;
+  }
+  .prose :global(code) { background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.35em; }
+  .prose :global(pre) { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1rem; overflow: auto; }
+  .prose :global(pre code) { background: transparent; border: 0; padding: 0; }
+</style>

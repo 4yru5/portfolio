@@ -1,0 +1,144 @@
+---
+// Scene 0 — fixed frosted macOS menu bar (plan §4).
+// Live IST clock, "status: hunting bugs", theme toggle dot, ⌘K.
+// Lowercase micro-copy, HeyClicky voice (plan §2).
+---
+
+<header class="menubar" role="banner">
+  <div class="menubar__inner">
+    <nav class="menubar__left" aria-label="Primary">
+      <a href="#top" class="menubar__brand mono">surya</a>
+      <a href="#projects" class="menubar__item mono">projects</a>
+      <a href="#writing" class="menubar__item mono">writing</a>
+      <a href="#timeline" class="menubar__item mono">experience</a>
+      <a href="#contact" class="menubar__item mono">contact</a>
+    </nav>
+
+    <div class="menubar__right">
+      <span class="menubar__status mono" aria-hidden="true">
+        <i class="menubar__dot"></i>status: hunting bugs
+      </span>
+
+      <button
+        type="button"
+        class="menubar__cmdk mono"
+        data-cmdk-open
+        aria-label="Open command palette"
+      >
+        <kbd>⌘</kbd><kbd>K</kbd>
+      </button>
+
+      <time class="menubar__clock mono" datetime="" aria-label="Time in IST">--:-- IST</time>
+
+      <button
+        type="button"
+        class="menubar__theme"
+        data-theme-toggle
+        aria-pressed="false"
+        aria-label="Toggle colour theme"
+        title="toggle theme"
+      >
+        <span class="menubar__theme-dot" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .menubar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 700;
+    height: var(--menubar-h);
+    background: var(--panel-bar);
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .menubar__inner {
+    height: 100%;
+    max-width: var(--maxw);
+    margin-inline: auto;
+    padding-inline: clamp(0.75rem, 3vw, 1.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .menubar__left { display: flex; align-items: center; gap: clamp(0.5rem, 2vw, 1.2rem); min-width: 0; }
+  .menubar__brand {
+    font-weight: 500;
+    font-size: var(--fs-sm);
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .menubar__item {
+    font-size: var(--fs-xs);
+    color: var(--ink-3);
+  }
+  .menubar__item:hover { color: var(--accent); text-decoration: none; }
+  /* hide nav links on the smallest screens; ⌘K covers navigation */
+  @media (max-width: 560px) { .menubar__item { display: none; } }
+
+  .menubar__right { display: flex; align-items: center; gap: clamp(0.5rem, 2vw, 1rem); }
+  .menubar__status { display: inline-flex; align-items: center; gap: 0.5ch; font-size: var(--fs-xs); color: var(--ink-3); }
+  @media (max-width: 720px) { .menubar__status { display: none; } }
+  .menubar__dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 var(--accent-soft);
+    animation: pulse 2.4s var(--ease-in-out) infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 var(--accent-soft); }
+    70% { box-shadow: 0 0 0 7px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+  @media (prefers-reduced-motion: reduce) { .menubar__dot { animation: none; } }
+
+  .menubar__cmdk {
+    display: inline-flex; gap: 2px; align-items: center;
+    background: transparent; border: 1px solid var(--line);
+    border-radius: 7px; padding: 2px 6px; cursor: pointer;
+    color: var(--ink-3); font-size: var(--fs-xs);
+  }
+  .menubar__cmdk:hover { border-color: var(--accent); color: var(--accent); }
+  .menubar__cmdk kbd { font-family: var(--font-mono); font-size: 0.7rem; }
+
+  .menubar__clock { font-size: var(--fs-xs); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  @media (max-width: 420px) { .menubar__clock { display: none; } }
+
+  .menubar__theme {
+    width: 26px; height: 26px; display: grid; place-items: center;
+    background: transparent; border: 1px solid var(--line);
+    border-radius: 50%; cursor: pointer; padding: 0;
+  }
+  .menubar__theme:hover { border-color: var(--accent); }
+  .menubar__theme-dot {
+    width: 13px; height: 13px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--ink) 50%, var(--panel-2) 50%);
+    border: 1px solid var(--ink-3);
+    transition: transform var(--dur-base) var(--ease-in-out);
+  }
+  :root[data-theme="dark"] .menubar__theme-dot { transform: rotate(180deg); }
+</style>
+
+<script>
+  // live IST clock — tiny, scoped to the menu bar
+  const el = document.querySelector<HTMLTimeElement>('.menubar__clock');
+  if (el) {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: 'Asia/Kolkata',
+    });
+    const tick = () => {
+      const now = new Date();
+      el.textContent = `${fmt.format(now)} IST`;
+      el.dateTime = now.toISOString();
+    };
+    tick();
+    setInterval(tick, 10_000);
+  }
+</script>

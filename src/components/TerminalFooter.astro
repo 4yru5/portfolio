@@ -1,0 +1,150 @@
+---
+// Scene 9 — Contact & footer (plan §4).
+// Huge wordmark, a terminal prompt (ssh surya@4yru5) with a working `help`
+// command (easter egg, plan §4), copy-email, PGP fingerprint, links to
+// security.txt and the CV.
+const EMAIL = 'suryaravi.in@gmail.com'; // TODO: real address
+const PGP = '4A9F  2B17  8C3D  5E60  1F2A  9B4C  7D8E  0A1B  2C3D  4E5F';
+const year = new Date().getFullYear();
+---
+
+<footer id="contact" class="foot">
+  <div class="wrap">
+    <h2 class="foot__wordmark" aria-label="4YRU5">
+      <decode-text data-from="SURYA" data-to="4YRU5">4YRU5</decode-text>
+    </h2>
+
+    <div class="foot__grid">
+      <div class="win foot__term" data-term>
+        <div class="win__bar">
+          <span class="win__lights" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="win__title">ssh surya@4yru5</span>
+        </div>
+        <div class="foot__screen mono" data-term-screen>
+          <p><span class="foot__prompt">surya@4yru5 ~ %</span> whoami</p>
+          <p class="foot__out">security researcher · appsec · api · ai · threat exposure</p>
+          <p><span class="foot__prompt">surya@4yru5 ~ %</span> contact</p>
+          <p class="foot__out">
+            <button class="foot__copy" type="button" data-copy={EMAIL}>{EMAIL} <span aria-hidden="true">⧉</span></button>
+          </p>
+          <p class="foot__out foot__hint">type <b>help</b> and press enter ↵</p>
+        </div>
+        <form class="foot__input" data-term-form>
+          <span class="foot__prompt mono">surya@4yru5 ~ %</span>
+          <input class="mono" type="text" name="cmd" autocomplete="off" spellcheck="false" aria-label="Terminal command" placeholder="help" />
+        </form>
+      </div>
+
+      <div class="foot__links">
+        <nav aria-label="Contact links" class="foot__nav">
+          <a href={`mailto:${EMAIL}`}>Email</a>
+          <a href="/cv">CV ↗</a>
+          <a href="https://github.com/4yru5" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://www.linkedin.com/in/4yru5/" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="https://medium.com/@4yru5" target="_blank" rel="noopener">Medium ↗</a>
+          <a href="/.well-known/security.txt">security.txt ↗</a>
+        </nav>
+        <div class="foot__pgp">
+          <p class="foot__pgp-label mono">pgp fingerprint</p>
+          <code class="foot__pgp-key">{PGP}</code>
+        </div>
+      </div>
+    </div>
+
+    <p class="foot__base mono">
+      <span>© {year} Surya Ravi</span>
+      <span aria-hidden="true">·</span>
+      <span>built static · no trackers</span>
+      <span aria-hidden="true">·</span>
+      <button class="foot__theme-link" type="button" data-theme-toggle>toggle theme</button>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .foot { padding: clamp(4rem, 10vh, 7rem) 0 3rem; border-top: 1px solid var(--line); margin-top: 4rem; }
+  .foot__wordmark {
+    font-size: clamp(3rem, 20vw, 16rem);
+    font-weight: 700;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+    margin: 0 0 2.5rem;
+    overflow: hidden;
+  }
+  .foot__wordmark :global(decode-text) { cursor: pointer; }
+
+  .foot__grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  @media (max-width: 760px) { .foot__grid { grid-template-columns: 1fr; } }
+
+  .foot__term { width: 100%; }
+  .foot__screen { background: #0a0a0a; color: #cfcfcf; padding: 1rem; font-size: 0.82rem; line-height: 1.7; min-height: 150px; max-height: 260px; overflow-y: auto; }
+  .foot__prompt { color: var(--accent); }
+  .foot__out { color: #bdbdbd; margin: 0 0 0.3rem; }
+  .foot__hint { color: #6f6f6f; }
+  .foot__copy { background: transparent; border: 0; color: #e6e6e6; cursor: pointer; font-family: var(--font-mono); font-size: inherit; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
+  .foot__copy:hover { color: var(--accent); }
+  .foot__input { display: flex; align-items: center; gap: 0.5ch; background: #0a0a0a; border-top: 1px solid #1c1c1c; padding: 0.6rem 1rem; }
+  .foot__input input { flex: 1; background: transparent; border: 0; color: #e6e6e6; outline: none; font-size: 0.82rem; }
+
+  .foot__links { display: flex; flex-direction: column; gap: 1.75rem; }
+  .foot__nav { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1.5rem; }
+  .foot__nav a { font-size: var(--fs-sm); color: var(--ink-2); }
+  .foot__nav a:hover { color: var(--accent); }
+  .foot__pgp-label { font-size: var(--fs-xs); color: var(--ink-4); text-transform: lowercase; letter-spacing: 0.12em; margin: 0 0 0.4rem; }
+  .foot__pgp-key { display: block; font-size: var(--fs-xs); color: var(--ink-3); word-spacing: 0.1em; line-height: 1.8; }
+
+  .foot__base { display: flex; flex-wrap: wrap; gap: 0.75ch; align-items: center; margin-top: 3rem; color: var(--ink-4); font-size: var(--fs-xs); }
+  .foot__theme-link { background: 0; border: 0; color: var(--ink-3); cursor: pointer; font: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .foot__theme-link:hover { color: var(--accent); }
+</style>
+
+<script>
+  // tiny terminal: help / email / cv / github / clear  (easter egg, plan §4)
+  const form = document.querySelector<HTMLFormElement>('[data-term-form]');
+  const screen = document.querySelector<HTMLElement>('[data-term-screen]');
+  const EMAIL = 'suryaravi.in@gmail.com';
+
+  function print(html: string, cls = 'foot__out') {
+    if (!screen) return;
+    const p = document.createElement('p');
+    p.className = cls;
+    p.innerHTML = html;
+    screen.appendChild(p);
+    screen.scrollTop = screen.scrollHeight;
+  }
+
+  const commands: Record<string, () => void> = {
+    help: () => print('available: <b>whoami</b> · <b>contact</b> · <b>email</b> · <b>cv</b> · <b>github</b> · <b>projects</b> · <b>clear</b>'),
+    whoami: () => print('security researcher · appsec · api · ai · threat exposure'),
+    contact: () => print(`${EMAIL} · github.com/4yru5 · in/surya-ravi`),
+    email: () => { navigator.clipboard?.writeText(EMAIL).then(() => print('✓ email copied to clipboard')).catch(() => print(EMAIL)); },
+    cv: () => { print('opening CV…'); window.open('/cv', '_blank'); },
+    github: () => { print('opening github…'); window.open('https://github.com/4yru5', '_blank'); },
+    projects: () => { print('jumping to projects…'); document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }); },
+    clear: () => { if (screen) screen.innerHTML = ''; },
+    flag: () => print('flag{nice_try_check_robots.txt}'),
+  };
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = form.querySelector('input')!;
+    const raw = input.value.trim().toLowerCase();
+    if (!raw) return;
+    print(`<span class="foot__prompt">surya@4yru5 ~ %</span> ${raw}`);
+    (commands[raw] ?? (() => print(`command not found: ${raw} — try <b>help</b>`)))();
+    input.value = '';
+  });
+
+  // copy-email buttons
+  document.querySelectorAll<HTMLButtonElement>('.foot__copy').forEach((b) => {
+    b.addEventListener('click', () => {
+      const v = b.dataset.copy ?? EMAIL;
+      navigator.clipboard?.writeText(v).then(() => {
+        const old = b.innerHTML;
+        b.innerHTML = '✓ copied';
+        setTimeout(() => (b.innerHTML = old), 1400);
+      });
+    });
+  });
+</script>

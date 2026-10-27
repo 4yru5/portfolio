@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# ¯\_(ツ)_/¯ for the CTF players — flag{read_the_robots}
+# a hidden flag lives in the page source too.
+
+Sitemap: https://4yru5.dev/sitemap-index.xml

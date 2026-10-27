@@ -1,0 +1,31 @@
+---
+title: "csp-lint"
+summary: "Parses a Content-Security-Policy and explains, in plain words, exactly what it still allows an attacker to do."
+year: 2024
+stack: ["Rust", "WASM"]
+tags: ["appsec", "automation"]
+repo: "https://github.com/4yru5/csp-lint"
+featured: false
+order: 4
+---
+
+> Placeholder case study — replace with your real write-up.
+
+## Problem
+
+A CSP looks strict and still permits inline script via a forgotten
+`unsafe-inline` or an over-broad host. The gap is hard to see by reading.
+
+## Approach
+
+`csp-lint` parses the policy and reports the concrete bypasses each directive
+leaves open, ranked by impact.
+
+## Architecture
+
+A Rust core compiled to WASM so it runs in the browser and in CI with the same
+logic.
+
+## Results
+
+Turned "the CSP looks fine" into a specific list of what to tighten.

@@ -1,0 +1,32 @@
+---
+title: "idor-replay"
+summary: "Takes one authenticated request and replays it across object IDs and sessions to surface broken access control."
+year: 2025
+stack: ["TypeScript", "Node", "HAR"]
+tags: ["api", "appsec"]
+repo: "https://github.com/4yru5/idor-replay"
+featured: true
+order: 3
+---
+
+> Placeholder case study — replace with your real write-up.
+
+## Problem
+
+IDOR / BOLA testing means replaying the same request as a different user over a
+different object, over and over. Doing it by hand misses cases.
+
+## Approach
+
+Point `idor-replay` at a HAR capture, mark the ID and the session token, and it
+fans the request out across a matrix of IDs and identities, flagging responses
+that should have been denied.
+
+## Architecture
+
+A small Node CLI that parses HAR, templates the request, and diffs status codes
+and body shapes across the matrix.
+
+## Results
+
+Found access-control gaps that a linear manual pass had skipped.

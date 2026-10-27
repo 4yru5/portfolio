@@ -1,0 +1,108 @@
+---
+import '../styles/tokens.css';
+import '../styles/dot-grid.css';
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = 'Surya Ravi — Security Researcher',
+  description = 'Security researcher working on application security, API security, AI/LLM security and threat exposure management. I study how systems fail and how trust breaks.',
+  image = '/og/default.png',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- cross-document View Transitions (plan §5): native, auto -->
+    <style is:global>
+      @view-transition { navigation: auto; }
+    </style>
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site)} />
+
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Surya Ravi — Writing" href="/rss.xml" />
+
+    <!-- Set the saved theme before first paint so there is no flash (plan §3).
+         Allow this one inline script in the CSP by its hash (section 7). -->
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'dark' || t === 'light') {
+            document.documentElement.dataset.theme = t;
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- JSON-LD Person (plan §8) -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Surya Ravi',
+        alternateName: '4YRU5',
+        jobTitle: 'Security Researcher',
+        url: canonical.origin,
+        sameAs: [
+          'https://github.com/4yru5',
+          'https://www.linkedin.com/in/4yru5/',
+          'https://medium.com/@4yru5',
+        ],
+      })}
+    />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- one fixed dot-grid layer (plan §3) -->
+    <div class="dot-grid" aria-hidden="true"></div>
+
+    <slot name="menubar" />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <slot name="footer" />
+
+    <!-- site-wide islands -->
+    <script>
+      import '../islands/theme-toggle.ts';
+      import '../islands/command-palette.ts';
+      import '../islands/dot-grid.ts';
+      import '../islands/decode-text.ts';
+    </script>
+  </body>
+</html>
