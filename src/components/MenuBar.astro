@@ -7,7 +7,10 @@
 <header class="menubar" role="banner">
   <div class="menubar__inner">
     <nav class="menubar__left" aria-label="Primary">
-      <a href="#top" class="menubar__brand mono">surya</a>
+      <a href="#top" class="menubar__brand mono">
+        <img src="/favicon.svg" alt="" class="menubar__logo" width="22" height="22" />
+        <span>surya</span>
+      </a>
       <a href="#projects" class="menubar__item mono">projects</a>
       <a href="#writing" class="menubar__item mono">writing</a>
       <a href="#timeline" class="menubar__item mono">experience</a>
@@ -67,11 +70,21 @@
   }
   .menubar__left { display: flex; align-items: center; gap: clamp(0.5rem, 2vw, 1.2rem); min-width: 0; }
   .menubar__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5ch;
     font-weight: 500;
     font-size: var(--fs-sm);
     color: var(--ink);
     letter-spacing: 0.02em;
   }
+  .menubar__brand:hover { text-decoration: none; }
+  .menubar__logo {
+    display: block;
+    border-radius: 6px;
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .menubar__brand:hover .menubar__logo { transform: rotate(-8deg) scale(1.06); }
   .menubar__item {
     font-size: var(--fs-xs);
     color: var(--ink-3);

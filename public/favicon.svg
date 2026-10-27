@@ -1,10 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7" fill="#000"/>
-  <g fill="#2ee07a">
-    <circle cx="8" cy="8" r="1.4"/><circle cx="16" cy="8" r="1.4"/><circle cx="24" cy="8" r="1.4"/>
-    <circle cx="8" cy="16" r="1.4"/><circle cx="24" cy="16" r="1.4"/>
-    <circle cx="8" cy="24" r="1.4"/><circle cx="16" cy="24" r="1.4"/><circle cx="24" cy="24" r="1.4"/>
-  </g>
-  <text x="16" y="21" font-family="ui-monospace,Menlo,monospace" font-size="13" font-weight="700"
-        fill="#2ee07a" text-anchor="middle">5</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="45">
+  <defs>
+    <!-- Figma-style colour sweep: orange → coral → purple → blue → green -->
+    <linearGradient id="fig45" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F24E1E"/>
+      <stop offset=".3" stop-color="#FF7262"/>
+      <stop offset=".55" stop-color="#A259FF"/>
+      <stop offset=".8" stop-color="#1ABCFE"/>
+      <stop offset="1" stop-color="#0ACF83"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="11" fill="#0d0d0d"/>
+  <rect x="1.25" y="1.25" width="45.5" height="45.5" rx="10" fill="none"
+        stroke="#ffffff" stroke-opacity=".08"/>
+  <text x="24" y="34.5" text-anchor="middle"
+        font-family="Helvetica, Arial, sans-serif" font-weight="800"
+        font-size="27" letter-spacing="-1.5" fill="url(#fig45)">45</text>
 </svg>
