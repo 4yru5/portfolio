@@ -42,7 +42,13 @@ import { withBase } from '../lib/base';
         aria-label="Toggle colour theme"
         title="toggle theme"
       >
-        <span class="menubar__theme-dot" aria-hidden="true"></span>
+        <svg class="menubar__icon menubar__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+        <svg class="menubar__icon menubar__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+        </svg>
       </button>
     </div>
   </div>
@@ -123,18 +129,31 @@ import { withBase } from '../lib/base';
   @media (max-width: 420px) { .menubar__clock { display: none; } }
 
   .menubar__theme {
+    position: relative;
     width: 26px; height: 26px; display: grid; place-items: center;
     background: transparent; border: 1px solid var(--line);
     border-radius: 50%; cursor: pointer; padding: 0;
+    color: var(--ink-2);
   }
-  .menubar__theme:hover { border-color: var(--accent); }
-  .menubar__theme-dot {
-    width: 13px; height: 13px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--ink) 50%, var(--panel-2) 50%);
-    border: 1px solid var(--ink-3);
-    transition: transform var(--dur-base) var(--ease-in-out);
+  .menubar__theme:hover { border-color: var(--accent); color: var(--accent); }
+  /* sun (light) and moon (dark) stacked in one cell; crossfade on toggle */
+  .menubar__icon {
+    grid-area: 1 / 1;
+    width: 15px; height: 15px;
+    transition: opacity var(--dur-base) var(--ease-in-out),
+                transform var(--dur-base) var(--ease-in-out);
   }
-  :root[data-theme="dark"] .menubar__theme-dot { transform: rotate(180deg); }
+  /* light (default): show the sun, tuck the moon away */
+  .menubar__icon--sun  { opacity: 1; transform: rotate(0) scale(1); }
+  .menubar__icon--moon { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+  /* dark (explicit, or system dark without an explicit light choice): show the moon */
+  :root[data-theme="dark"] .menubar__icon--sun  { opacity: 0; transform: rotate(90deg) scale(0.5); }
+  :root[data-theme="dark"] .menubar__icon--moon { opacity: 1; transform: rotate(0) scale(1); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .menubar__icon--sun  { opacity: 0; transform: rotate(90deg) scale(0.5); }
+    :root:not([data-theme="light"]) .menubar__icon--moon { opacity: 1; transform: rotate(0) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) { .menubar__icon { transition: none; } }
 </style>
 
 <script>
