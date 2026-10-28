@@ -2,6 +2,7 @@
 // Scene 1 — Hero (plan §4).
 // Giant name that decodes 4YRU5 ⇄ SURYA, a "Hello my name is" sticker,
 // focus tags as pills, CV + GitHub buttons.
+import { withBase } from '../lib/base';
 const focus = ['appsec', 'api security', 'ai / llm', 'threat exposure'];
 ---
 
@@ -25,7 +26,7 @@ const focus = ['appsec', 'api security', 'ai / llm', 'threat exposure'];
     </ul>
 
     <div class="hero__actions reveal">
-      <a class="btn btn--accent" href="/cv">View CV ↗</a>
+      <a class="btn btn--accent" href={withBase("/cv")}>View CV ↗</a>
       <a class="btn" href="https://github.com/4yru5" target="_blank" rel="noopener">
         GitHub ↗
       </a>

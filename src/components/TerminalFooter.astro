@@ -3,6 +3,7 @@
 // Huge wordmark, a terminal prompt (ssh surya@4yru5) with a working `help`
 // command (easter egg, plan §4), copy-email, PGP fingerprint, links to
 // security.txt and the CV.
+import { withBase } from '../lib/base';
 const EMAIL = 'suryaravi.in@gmail.com'; // TODO: real address
 const PGP = '4A9F  2B17  8C3D  5E60  1F2A  9B4C  7D8E  0A1B  2C3D  4E5F';
 const year = new Date().getFullYear();
@@ -38,11 +39,11 @@ const year = new Date().getFullYear();
       <div class="foot__links">
         <nav aria-label="Contact links" class="foot__nav">
           <a href={`mailto:${EMAIL}`}>Email</a>
-          <a href="/cv">CV ↗</a>
+          <a href={withBase("/cv")}>CV ↗</a>
           <a href="https://github.com/4yru5" target="_blank" rel="noopener">GitHub ↗</a>
           <a href="https://www.linkedin.com/in/4yru5/" target="_blank" rel="noopener">LinkedIn ↗</a>
           <a href="https://medium.com/@4yru5" target="_blank" rel="noopener">Medium ↗</a>
-          <a href="/.well-known/security.txt">security.txt ↗</a>
+          <a href={withBase("/.well-known/security.txt")}>security.txt ↗</a>
         </nav>
         <div class="foot__pgp">
           <p class="foot__pgp-label mono">pgp fingerprint</p>
@@ -119,7 +120,7 @@ const year = new Date().getFullYear();
     whoami: () => print('security researcher · appsec · api · ai · threat exposure'),
     contact: () => print(`${EMAIL} · github.com/4yru5 · in/surya-ravi`),
     email: () => { navigator.clipboard?.writeText(EMAIL).then(() => print('✓ email copied to clipboard')).catch(() => print(EMAIL)); },
-    cv: () => { print('opening CV…'); window.open('/cv', '_blank'); },
+    cv: () => { print('opening CV…'); window.open('https://4yru5.github.io/cv/', '_blank'); },
     github: () => { print('opening github…'); window.open('https://github.com/4yru5', '_blank'); },
     projects: () => { print('jumping to projects…'); document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }); },
     clear: () => { if (screen) screen.innerHTML = ''; },

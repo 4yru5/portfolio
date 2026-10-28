@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import MenuBar from '../../components/MenuBar.astro';
 import TerminalFooter from '../../components/TerminalFooter.astro';
+import { withBase } from '../../lib/base';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
@@ -22,7 +23,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { year: 'numeric', month:
 
   <article class="section">
     <div class="wrap">
-      <a class="mono post-back" href="/writing">← writing</a>
+      <a class="mono post-back" href={withBase("/writing")}>← writing</a>
       <header class="post-head">
         <time class="mono post-date" datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
         <h1 class="post-title">{post.data.title}</h1>

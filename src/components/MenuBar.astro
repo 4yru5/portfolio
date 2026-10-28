@@ -2,13 +2,14 @@
 // Scene 0 — fixed frosted macOS menu bar (plan §4).
 // Live IST clock, "status: hunting bugs", theme toggle dot, ⌘K.
 // Lowercase micro-copy, HeyClicky voice (plan §2).
+import { withBase } from '../lib/base';
 ---
 
 <header class="menubar" role="banner">
   <div class="menubar__inner">
     <nav class="menubar__left" aria-label="Primary">
       <a href="#top" class="menubar__brand mono">
-        <img src="/favicon.svg" alt="" class="menubar__logo" width="22" height="22" />
+        <img src={withBase("/favicon.svg")} alt="" class="menubar__logo" width="22" height="22" />
         <span>surya</span>
       </a>
       <a href="#projects" class="menubar__item mono">projects</a>

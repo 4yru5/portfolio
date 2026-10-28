@@ -1,6 +1,7 @@
 ---
 // Scene 7 — Writing (plan §4). Large titles, hover lifts, tag chips, RSS link.
 import { getCollection } from 'astro:content';
+import { withBase } from '../lib/base';
 
 const posts = (await getCollection('writing')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -16,12 +17,12 @@ const fmt = (d: Date) =>
         <p class="eyebrow">writing</p>
         <h2 class="writing__title">Write-ups &amp; notes.</h2>
       </div>
-      <a class="btn" href="/rss.xml">RSS ↗</a>
+      <a class="btn" href={withBase("/rss.xml")}>RSS ↗</a>
     </div>
 
     <ul class="writing__list reveal-stagger">
       {posts.map((post) => {
-        const href = post.data.external ?? `/writing/${post.id}`;
+        const href = post.data.external ?? withBase(`/writing/${post.id}`);
         const ext = Boolean(post.data.external);
         return (
           <li class="post">

@@ -3,6 +3,7 @@
 import Base from '../layouts/Base.astro';
 import MenuBar from '../components/MenuBar.astro';
 import TerminalFooter from '../components/TerminalFooter.astro';
+import { withBase } from '../lib/base';
 ---
 
 <Base title="404 — not found" description="This page doesn't exist.">
@@ -15,7 +16,7 @@ import TerminalFooter from '../components/TerminalFooter.astro';
       <p class="nf__msg">not found — but here's a flag.</p>
       <p class="nf__flag mono">flag{'{'}y0u_f0und_th3_404{'}'}</p>
       <div class="nf__actions">
-        <a class="btn btn--accent" href="/">back home</a>
+        <a class="btn btn--accent" href={withBase("/")}>back home</a>
         <button class="btn" type="button" data-cmdk-open><kbd class="mono">⌘K</kbd> jump to…</button>
       </div>
     </div>

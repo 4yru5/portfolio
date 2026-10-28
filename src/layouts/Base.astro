@@ -2,6 +2,7 @@
 import '../styles/tokens.css';
 import '../styles/dot-grid.css';
 import '../styles/global.css';
+import { withBase } from '../lib/base';
 
 export interface Props {
   title?: string;
@@ -16,6 +17,7 @@ const {
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(withBase(image), Astro.site);
 ---
 
 <!doctype html>
@@ -39,17 +41,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:image" content={ogImage} />
 
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="alternate" type="application/rss+xml" title="Surya Ravi — Writing" href="/rss.xml" />
+    <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Surya Ravi — Writing" href={withBase("/rss.xml")} />
 
     <!-- Set the saved theme before first paint so there is no flash (plan §3).
          Allow this one inline script in the CSP by its hash (section 7). -->

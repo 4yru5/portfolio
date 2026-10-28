@@ -4,6 +4,7 @@
 // a cross-document View Transition (view-transition-name shared with the
 // case-study header on /work/[slug]).
 import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../lib/base';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -45,14 +46,14 @@ const vt = `vt-${slug}`;
 
     <div class="project-window__meta">
       <h3 class="project-window__title">
-        <a href={`/work/${slug}`}>{title}</a>
+        <a href={withBase(`/work/${slug}`)}>{title}</a>
       </h3>
       <p class="project-window__summary">{summary}</p>
       <ul class="project-window__stack" aria-label="Stack">
         {stack.map((s) => <li class="pill">{s}</li>)}
       </ul>
       <div class="project-window__links">
-        <a class="project-window__link" href={`/work/${slug}`}>case study →</a>
+        <a class="project-window__link" href={withBase(`/work/${slug}`)}>case study →</a>
         {repo && (
           <a class="project-window__link" href={repo} target="_blank" rel="noopener">repo ↗</a>
         )}

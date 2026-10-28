@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import MenuBar from '../../components/MenuBar.astro';
 import TerminalFooter from '../../components/TerminalFooter.astro';
+import { withBase } from '../../lib/base';
 
 const posts = (await getCollection('writing')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -16,7 +17,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { year: 'numeric', month:
 
   <section class="section">
     <div class="wrap">
-      <a class="mono writing-index__back" href="/">← home</a>
+      <a class="mono writing-index__back" href={withBase("/")}>← home</a>
       <p class="eyebrow">writing</p>
       <h1 class="writing-index__title">Write-ups &amp; notes</h1>
 
@@ -26,7 +27,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { year: 'numeric', month:
 
       <ul class="writing-index__list">
         {posts.map((post) => {
-          const href = post.data.external ?? `/writing/${post.id}`;
+          const href = post.data.external ?? withBase(`/writing/${post.id}`);
           const ext = Boolean(post.data.external);
           return (
             <li class="wi-post">
