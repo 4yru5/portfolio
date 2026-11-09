@@ -9,9 +9,8 @@
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SplitText } from 'gsap/SplitText';
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger);
 
 const mm = gsap.matchMedia();
 
@@ -23,25 +22,6 @@ mm.add(
   (ctx) => {
     const { motion, fine } = ctx.conditions as { motion: boolean; fine: boolean };
     if (!motion) return;
-
-    /* ---- Scene 2: pinned statement, words light up one by one ---- */
-    const statement = document.querySelector<HTMLElement>('[data-scene="statement"] .statement__text');
-    if (statement) {
-      const split = new SplitText(statement, { type: 'words', wordsClass: 'word' });
-      gsap.set(split.words, { opacity: 0.16 });
-      gsap.to(split.words, {
-        opacity: 1,
-        ease: 'none',
-        stagger: 0.12,
-        scrollTrigger: {
-          trigger: '[data-scene="statement"]',
-          start: 'top top',
-          end: '+=150%',
-          pin: fine, // only pin on larger screens
-          scrub: true,
-        },
-      });
-    }
 
     /* ---- Scene 6: timeline line draws down as you scroll ---- */
     const line = document.querySelector<HTMLElement>('[data-timeline-line]');
