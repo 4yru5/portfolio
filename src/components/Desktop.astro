@@ -249,14 +249,28 @@ import { withBase } from '../lib/base';
     setTimeout(() => cube.classList.remove('is-scrambling'), 2800);
   });
 
-  // keep the hobby clip playing (muted) no matter what — retry past autoplay quirks
+  // keep the hobby clip looping forever — never require a tap on the play button
   document.querySelectorAll<HTMLVideoElement>('.deskwin__video').forEach((v) => {
     v.muted = true;
-    const play = () => v.play().catch(() => {});
-    play();
-    v.addEventListener('canplay', play, { once: true });
-    v.addEventListener('loadeddata', play, { once: true });
-    // if the browser pauses it when the tab is hidden, resume on return
+    v.defaultMuted = true;
+    v.loop = true;
+    const play = () => { const p = v.play(); if (p) p.catch(() => {}); };
+    // play on load, whenever it scrolls into view, and if it ever ends/stalls
+    v.addEventListener('canplay', play);
+    v.addEventListener('loadeddata', play);
+    v.addEventListener('ended', play);
+    v.addEventListener('pause', () => { if (!document.hidden) play(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(
+        (entries) => entries.forEach((e) => e.isIntersecting && play()),
+        { threshold: 0.1 }
+      ).observe(v);
+    }
     document.addEventListener('visibilitychange', () => { if (!document.hidden) play(); });
+    // last resort: resume on the first interaction if a strict policy blocked autoplay
+    const once = () => { play(); removeEventListener('pointerdown', once); removeEventListener('keydown', once); };
+    addEventListener('pointerdown', once, { passive: true });
+    addEventListener('keydown', once);
+    play();
   });
 </script>
