@@ -2,7 +2,7 @@
 // Scene 8 — After hours / Miscellany (plan §4).
 // The person behind the work: a Rubik's cube that scrambles & solves on click,
 // a chess puzzle window, a "now playing" guitar widget, a surf note, a kayak
-// photo, kaomoji stickers. HeyClicky playfulness is concentrated here (plan §2).
+// photo, a karting clip, kaomoji stickers. HeyClicky playfulness lives here (plan §2).
 import { withBase } from '../lib/base';
 ---
 
@@ -86,6 +86,27 @@ import { withBase } from '../lib/base';
       <figcaption class="deskwin__cap mono">paddling into the sunset 🛶</figcaption>
     </figure>
 
+    <!-- karting clip (hobby) — autoplaying muted loop, heyclicky-style media window -->
+    <figure class="deskwin deskwin--video" data-drag>
+      <div class="win deskwin__frame">
+        <div class="win__bar"><span class="win__lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="win__title">karting.mov</span></div>
+        <video
+          class="deskwin__video"
+          src={withBase('/media/karting.mp4')}
+          poster={withBase('/media/karting-poster.jpg')}
+          width="600"
+          height="798"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-label="Go-karting — taking a corner on a kart track at sunset."
+        ></video>
+      </div>
+      <figcaption class="deskwin__cap mono">karting · last lap 🏁</figcaption>
+    </figure>
+
     <!-- kaomoji stickers -->
     <span class="sticker sticker--1 mono" aria-hidden="true">¯\\_(ツ)_/¯</span>
     <span class="sticker sticker--2 mono" aria-hidden="true">(•_•) → (⌐■_■)</span>
@@ -105,21 +126,24 @@ import { withBase } from '../lib/base';
     align-items: start;
   }
   @media (min-width: 860px) and (prefers-reduced-motion: no-preference) {
-    .desktop__stage { display: block; min-height: 520px; }
+    .desktop__stage { display: block; min-height: 650px; }
     .deskwin { position: absolute; }
-    .deskwin--cube { top: 0; left: 2%; }
-    .deskwin--chess { top: 30px; left: 34%; }
-    .deskwin--music { top: 280px; left: 8%; }
-    .deskwin--surf { top: 250px; left: 48%; }
-    .deskwin--photo { top: 8px; left: 62%; transform: rotate(1.5deg); }
+    .deskwin--cube { top: 0; left: 0; }
+    .deskwin--music { top: 212px; left: 0; }
+    .deskwin--surf { top: 332px; left: 1%; }
+    .deskwin--chess { top: 24px; left: 28%; }
+    .deskwin--photo { top: 10px; left: 56%; transform: rotate(1.5deg); }
+    .deskwin--video { top: 268px; left: 56%; transform: rotate(-1.5deg); }
   }
   .deskwin { width: min(300px, 90vw); }
   .deskwin__body { padding: 1rem; background: var(--panel); }
 
-  /* ---- kayak photo (hobby) ---- */
-  .deskwin--photo { margin: 0; }
+  /* ---- kayak photo + karting video (hobbies) ---- */
+  .deskwin--photo, .deskwin--video { margin: 0; }
+  .deskwin--video { width: min(220px, 70vw); }
   .deskwin__frame { overflow: hidden; }
-  .deskwin__photo { display: block; width: 100%; height: auto; }
+  .deskwin__photo, .deskwin__video { display: block; width: 100%; height: auto; }
+  .deskwin__video { background: #000; }
   .deskwin__cap { margin: 0.5rem 0 0; text-align: center; font-size: var(--fs-xs); color: var(--ink-4); }
 
   /* ---- Rubik's cube (CSS 3D) ---- */
@@ -190,8 +214,8 @@ import { withBase } from '../lib/base';
   .sticker { color: var(--ink-3); font-size: var(--fs-sm); }
   @media (min-width: 860px) {
     .sticker { position: absolute; }
-    .sticker--1 { top: 300px; left: 84%; transform: rotate(-6deg); }
-    .sticker--2 { top: 420px; left: 64%; transform: rotate(4deg); }
+    .sticker--1 { top: 70px; left: 85%; transform: rotate(-6deg); }
+    .sticker--2 { top: 470px; left: 82%; transform: rotate(4deg); }
   }
   @media (max-width: 859px) { .sticker { display: inline-block; margin: 0.5rem 1rem 0 0; } }
 </style>
@@ -203,4 +227,13 @@ import { withBase } from '../lib/base';
     cube.classList.add('is-scrambling');
     setTimeout(() => cube.classList.remove('is-scrambling'), 2800);
   });
+
+  // respect reduced-motion: stop autoplaying clips and show the poster frame
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLVideoElement>('video[autoplay]').forEach((v) => {
+      v.removeAttribute('autoplay');
+      v.pause();
+      try { v.currentTime = 0; } catch {}
+    });
+  }
 </script>
