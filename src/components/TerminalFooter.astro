@@ -3,9 +3,7 @@
 // Huge wordmark, a terminal prompt (ssh surya@4yru5) with a working `help`
 // command (easter egg, plan §4), copy-email, PGP fingerprint, links to
 // security.txt and the CV.
-import { withBase } from '../lib/base';
-const EMAIL = 'suryaravi.in@gmail.com'; // TODO: real address
-const PGP = '4A9F  2B17  8C3D  5E60  1F2A  9B4C  7D8E  0A1B  2C3D  4E5F';
+const EMAIL = 'suryaravi.in@gmail.com';
 const year = new Date().getFullYear();
 ---
 
@@ -38,17 +36,10 @@ const year = new Date().getFullYear();
 
       <div class="foot__links">
         <nav aria-label="Contact links" class="foot__nav">
-          <a href={`mailto:${EMAIL}`}>Email</a>
-          <a href={withBase("/cv")}>CV ↗</a>
+          <a href={`mailto:${EMAIL}`}>Email: {EMAIL}</a>
           <a href="https://github.com/4yru5" target="_blank" rel="noopener">GitHub ↗</a>
           <a href="https://www.linkedin.com/in/4yru5/" target="_blank" rel="noopener">LinkedIn ↗</a>
-          <a href="https://medium.com/engineering-activefence/alice-in-wonderland-prompt-based-ctf-ai-security-challenge-b6af4b6de75e" target="_blank" rel="noopener">Medium ↗</a>
-          <a href={withBase("/.well-known/security.txt")}>security.txt ↗</a>
         </nav>
-        <div class="foot__pgp">
-          <p class="foot__pgp-label mono">pgp fingerprint</p>
-          <code class="foot__pgp-key">{PGP}</code>
-        </div>
       </div>
     </div>
 
@@ -89,11 +80,9 @@ const year = new Date().getFullYear();
   .foot__input input { flex: 1; background: transparent; border: 0; color: #e6e6e6; outline: none; font-size: 0.82rem; }
 
   .foot__links { display: flex; flex-direction: column; gap: 1.75rem; }
-  .foot__nav { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1.5rem; }
+  .foot__nav { display: flex; flex-direction: column; gap: 0.8rem; align-items: start; }
   .foot__nav a { font-size: var(--fs-sm); color: var(--ink-2); }
   .foot__nav a:hover { color: var(--accent); }
-  .foot__pgp-label { font-size: var(--fs-xs); color: var(--ink-4); text-transform: lowercase; letter-spacing: 0.12em; margin: 0 0 0.4rem; }
-  .foot__pgp-key { display: block; font-size: var(--fs-xs); color: var(--ink-3); word-spacing: 0.1em; line-height: 1.8; }
 
   .foot__base { display: flex; flex-wrap: wrap; gap: 0.75ch; align-items: center; margin-top: 3rem; color: var(--ink-4); font-size: var(--fs-xs); }
   .foot__theme-link { background: 0; border: 0; color: var(--ink-3); cursor: pointer; font: inherit; text-decoration: underline; text-underline-offset: 3px; }
