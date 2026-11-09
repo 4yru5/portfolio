@@ -1,17 +1,17 @@
 [
   {
-    "id": "alice-ai-redteam",
-    "date": "2026-03",
-    "period": "2026",
+    "id": "orbia-tem-analyst",
+    "date": "2026-07",
+    "period": "2026 — present",
     "kind": "role",
-    "title": "AI Red Team Researcher — Freelance",
-    "org": "Alice",
+    "title": "Security Analyst — Threat Exposure Management",
+    "org": "Orbia",
     "points": [
-      "Adversarial LLM red-teaming — built prompt-injection, jailbreak and model-steering scenarios to probe guardrails, system-prompt leakage and data exposure.",
-      "Built automated harnesses for adversarial prompt execution, response capture and regression testing across attack scenarios.",
-      "Mapped findings to the OWASP Top 10 for LLMs with severity ratings, repro steps and mitigation guidance — awarded Best Technical Write-up."
+      "Built an event-driven zero-day / N-day pipeline in Tines ingesting Assetnote and CrowdStrike alerts across internet-facing assets, auto-raising ServiceNow tickets to cut time-to-remediation.",
+      "Integrated CrowdStrike Falcon Fusion SOAR to detect cloud misconfiguration drift and shipped 5 automated response-and-remediation workflows.",
+      "Own quarterly SAP and internet-facing pentests on Intigriti end to end — scope, retests and variant analysis — plus white-box tests on internal apps."
     ],
-    "highlight": false
+    "highlight": true
   },
   {
     "id": "orbia-intern",
@@ -28,17 +28,30 @@
     "highlight": false
   },
   {
-    "id": "orbia-tem-analyst",
-    "date": "2026-07",
-    "period": "2026 — present",
+    "id": "alice-ai-redteam",
+    "date": "2026-03",
+    "period": "2026",
     "kind": "role",
-    "title": "Threat Exposure Management Analyst",
-    "org": "Orbia",
+    "title": "AI Red Team Researcher — Freelance",
+    "org": "Alice",
     "points": [
-      "Built an event-driven zero-day / N-day pipeline in Tines ingesting Assetnote and CrowdStrike alerts across internet-facing assets, auto-raising ServiceNow tickets to cut time-to-remediation.",
-      "Integrated CrowdStrike Falcon Fusion SOAR to detect cloud misconfiguration drift and shipped 5 automated response-and-remediation workflows.",
-      "Own quarterly SAP and internet-facing pentests on Intigriti end to end — scope, retests and variant analysis — plus white-box tests on internal apps."
+      "Adversarial LLM red-teaming — built prompt-injection, jailbreak and model-steering scenarios to probe guardrails, system-prompt leakage and data exposure.",
+      "Built automated harnesses for adversarial prompt execution, response capture and regression testing across attack scenarios.",
+      "Mapped findings to the OWASP Top 10 for LLMs with severity ratings, repro steps and mitigation guidance — awarded Best Technical Write-up."
     ],
-    "highlight": true
+    "highlight": false
+  },
+  {
+    "id": "hackerone-researcher",
+    "date": "2022-01",
+    "period": "ongoing",
+    "kind": "role",
+    "title": "Independent Vulnerability Researcher",
+    "org": "HackerOne",
+    "points": [
+      "Hunt and responsibly disclose vulnerabilities across public and private bug-bounty programs.",
+      "Focus on access-control, API and web-application flaws — with reproducible PoCs and clear remediation guidance."
+    ],
+    "highlight": false
   }
 ]
