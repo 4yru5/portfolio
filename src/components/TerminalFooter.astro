@@ -6,16 +6,25 @@ const EMAIL = 'suryaravi.in@gmail.com';
 <footer id="contact" class="foot">
   <div class="wrap">
     <nav aria-label="Contact links" class="foot__nav">
-      <a href={`mailto:${EMAIL}`}>Email: {EMAIL}</a>
-      <a href="https://github.com/4yru5" target="_blank" rel="noopener">GitHub ↗</a>
-      <a href="https://www.linkedin.com/in/4yru5/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="foot__mail" href={`mailto:${EMAIL}`}>Email: {EMAIL}</a>
+      <span class="foot__social">
+        <a href="https://www.linkedin.com/in/4yru5/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://github.com/4yru5" target="_blank" rel="noopener">GitHub ↗</a>
+      </span>
     </nav>
   </div>
 </footer>
 
 <style>
   .foot { padding: clamp(3rem, 8vh, 5rem) 0; border-top: 1px solid var(--line); margin-top: 4rem; }
-  .foot__nav { display: flex; flex-direction: column; gap: 0.8rem; align-items: start; }
+  .foot__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+  }
+  .foot__social { display: flex; gap: 1.75rem; }
   .foot__nav a { font-size: var(--fs-md); color: var(--ink-2); }
   .foot__nav a:hover { color: var(--accent); }
 </style>
