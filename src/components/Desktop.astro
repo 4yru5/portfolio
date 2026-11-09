@@ -69,10 +69,9 @@ import { withBase } from '../lib/base';
       </div>
     </div>
 
-    <!-- kayak photo (hobby) — heyclicky-style media window with a filename caption -->
+    <!-- kayak photo (hobby) — bare rounded image with a terminal-style label beneath -->
     <figure class="deskwin deskwin--photo" data-drag>
-      <div class="win deskwin__frame">
-        <div class="win__bar"><span class="win__lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="win__title">sunset-paddle.jpg</span></div>
+      <div class="deskwin__frame">
         <img
           class="deskwin__photo"
           src={withBase('/media/kayak-sunset.jpg')}
@@ -83,13 +82,12 @@ import { withBase } from '../lib/base';
           alt="Paddling a kayak into the sunset on the Kerala backwaters, paddle held overhead."
         />
       </div>
-      <figcaption class="deskwin__cap mono">paddling into the sunset 🛶</figcaption>
+      <figcaption class="deskwin__cap mono">paddle</figcaption>
     </figure>
 
-    <!-- karting clip (hobby) — autoplaying muted loop, heyclicky-style media window -->
+    <!-- karting clip (hobby) — bare rounded video, always autoplaying, label beneath -->
     <figure class="deskwin deskwin--video" data-drag>
-      <div class="win deskwin__frame">
-        <div class="win__bar"><span class="win__lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="win__title">karting.mov</span></div>
+      <div class="deskwin__frame">
         <video
           class="deskwin__video"
           src={withBase('/media/karting.mp4')}
@@ -100,11 +98,11 @@ import { withBase } from '../lib/base';
           muted
           loop
           playsinline
-          preload="metadata"
+          preload="auto"
           aria-label="Go-karting — taking a corner on a kart track at sunset."
         ></video>
       </div>
-      <figcaption class="deskwin__cap mono">karting · last lap 🏁</figcaption>
+      <figcaption class="deskwin__cap mono">karting</figcaption>
     </figure>
 
     <!-- kaomoji stickers -->
@@ -139,12 +137,18 @@ import { withBase } from '../lib/base';
   .deskwin__body { padding: 1rem; background: var(--panel); }
 
   /* ---- kayak photo + karting video (hobbies) ---- */
+  /* bare rounded-corner media (no title bar) with a terminal-style label beneath */
   .deskwin--photo, .deskwin--video { margin: 0; }
   .deskwin--video { width: min(220px, 70vw); }
-  .deskwin__frame { overflow: hidden; }
+  .deskwin__frame {
+    overflow: hidden;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-lift);
+    background: #000;
+  }
   .deskwin__photo, .deskwin__video { display: block; width: 100%; height: auto; }
-  .deskwin__video { background: #000; }
-  .deskwin__cap { margin: 0.5rem 0 0; text-align: center; font-size: var(--fs-xs); color: var(--ink-4); }
+  .deskwin__cap { margin: 0.4rem 0 0; text-align: center; font-size: var(--fs-xs); color: var(--ink-4); }
 
   /* ---- Rubik's cube (CSS 3D) ---- */
   .cube-stage { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; padding: 1.75rem 1rem 1.25rem; perspective: 600px; }
@@ -228,12 +232,14 @@ import { withBase } from '../lib/base';
     setTimeout(() => cube.classList.remove('is-scrambling'), 2800);
   });
 
-  // respect reduced-motion: stop autoplaying clips and show the poster frame
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll<HTMLVideoElement>('video[autoplay]').forEach((v) => {
-      v.removeAttribute('autoplay');
-      v.pause();
-      try { v.currentTime = 0; } catch {}
-    });
-  }
+  // keep the hobby clip playing (muted) no matter what — retry past autoplay quirks
+  document.querySelectorAll<HTMLVideoElement>('.deskwin__video').forEach((v) => {
+    v.muted = true;
+    const play = () => v.play().catch(() => {});
+    play();
+    v.addEventListener('canplay', play, { once: true });
+    v.addEventListener('loadeddata', play, { once: true });
+    // if the browser pauses it when the tab is hidden, resume on return
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) play(); });
+  });
 </script>
