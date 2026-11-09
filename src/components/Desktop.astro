@@ -105,6 +105,22 @@ import { withBase } from '../lib/base';
       <figcaption class="deskwin__cap mono">karting</figcaption>
     </figure>
 
+    <!-- surfing photo (hobby) — 1:1, subject centred, label beneath -->
+    <figure class="deskwin deskwin--surfing" data-drag>
+      <div class="deskwin__frame">
+        <img
+          class="deskwin__photo"
+          src={withBase('/media/surfing.jpg')}
+          width="800"
+          height="800"
+          loading="lazy"
+          decoding="async"
+          alt="Walking along the beach carrying a blue surfboard, waves rolling in behind."
+        />
+      </div>
+      <figcaption class="deskwin__cap mono">surfing</figcaption>
+    </figure>
+
     <!-- kaomoji stickers -->
     <span class="sticker sticker--1 mono" aria-hidden="true">¯\\_(ツ)_/¯</span>
     <span class="sticker sticker--2 mono" aria-hidden="true">(•_•) → (⌐■_■)</span>
@@ -124,7 +140,7 @@ import { withBase } from '../lib/base';
     align-items: start;
   }
   @media (min-width: 860px) and (prefers-reduced-motion: no-preference) {
-    .desktop__stage { display: block; min-height: 650px; }
+    .desktop__stage { display: block; min-height: 680px; }
     .deskwin { position: absolute; }
     .deskwin--cube { top: 0; left: 0; }
     .deskwin--music { top: 212px; left: 0; }
@@ -132,14 +148,15 @@ import { withBase } from '../lib/base';
     .deskwin--chess { top: 24px; left: 28%; }
     .deskwin--photo { top: 10px; left: 56%; transform: rotate(1.5deg); }
     .deskwin--video { top: 268px; left: 56%; transform: rotate(-1.5deg); }
+    .deskwin--surfing { top: 392px; left: 30%; transform: rotate(1deg); }
   }
   .deskwin { width: min(300px, 90vw); }
   .deskwin__body { padding: 1rem; background: var(--panel); }
 
-  /* ---- kayak photo + karting video (hobbies) ---- */
+  /* ---- kayak photo + karting video + surfing photo (hobbies) ---- */
   /* bare rounded-corner media (no title bar) with a terminal-style label beneath */
-  .deskwin--photo, .deskwin--video { margin: 0; }
-  .deskwin--video { width: min(220px, 70vw); }
+  .deskwin--photo, .deskwin--video, .deskwin--surfing { margin: 0; }
+  .deskwin--video, .deskwin--surfing { width: min(220px, 70vw); }
   .deskwin__frame {
     overflow: hidden;
     border-radius: 14px;
