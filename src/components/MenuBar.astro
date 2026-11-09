@@ -19,19 +19,6 @@ import { withBase } from '../lib/base';
     </nav>
 
     <div class="menubar__right">
-      <span class="menubar__status mono" aria-hidden="true">
-        <i class="menubar__dot"></i>status: hunting bugs
-      </span>
-
-      <button
-        type="button"
-        class="menubar__cmdk mono"
-        data-cmdk-open
-        aria-label="Open command palette"
-      >
-        <kbd>⌘</kbd><kbd>K</kbd>
-      </button>
-
       <time class="menubar__clock mono" datetime="" aria-label="Time in IST">--:-- IST</time>
 
       <button
@@ -101,29 +88,6 @@ import { withBase } from '../lib/base';
   @media (max-width: 560px) { .menubar__item { display: none; } }
 
   .menubar__right { display: flex; align-items: center; gap: clamp(0.5rem, 2vw, 1rem); }
-  .menubar__status { display: inline-flex; align-items: center; gap: 0.5ch; font-size: var(--fs-xs); color: var(--ink-3); }
-  @media (max-width: 720px) { .menubar__status { display: none; } }
-  .menubar__dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 0 0 var(--accent-soft);
-    animation: pulse 2.4s var(--ease-in-out) infinite;
-  }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 var(--accent-soft); }
-    70% { box-shadow: 0 0 0 7px transparent; }
-    100% { box-shadow: 0 0 0 0 transparent; }
-  }
-  @media (prefers-reduced-motion: reduce) { .menubar__dot { animation: none; } }
-
-  .menubar__cmdk {
-    display: inline-flex; gap: 2px; align-items: center;
-    background: transparent; border: 1px solid var(--line);
-    border-radius: 7px; padding: 2px 6px; cursor: pointer;
-    color: var(--ink-3); font-size: var(--fs-xs);
-  }
-  .menubar__cmdk:hover { border-color: var(--accent); color: var(--accent); }
-  .menubar__cmdk kbd { font-family: var(--font-mono); font-size: 0.7rem; }
 
   .menubar__clock { font-size: var(--fs-xs); color: var(--ink-2); font-variant-numeric: tabular-nums; }
   @media (max-width: 420px) { .menubar__clock { display: none; } }
