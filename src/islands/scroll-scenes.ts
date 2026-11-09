@@ -43,33 +43,6 @@ mm.add(
       });
     }
 
-    /* ---- Scene 4: pinned CTF — rank counts down to 5, then award reveals ---- */
-    const ctf = document.querySelector<HTMLElement>('[data-scene="ctf"]');
-    const rankEl = ctf?.querySelector<HTMLElement>('[data-rank]');
-    const award = ctf?.querySelector<HTMLElement>('[data-award]');
-    if (ctf && rankEl) {
-      const counter = { v: 240 };
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ctf,
-          start: 'top top',
-          end: '+=160%',
-          pin: fine,
-          scrub: true,
-        },
-      });
-      tl.to(counter, {
-        v: 5,
-        ease: 'power2.out',
-        duration: 1,
-        onUpdate: () => { rankEl.textContent = String(Math.round(counter.v)); },
-      });
-      if (award) {
-        gsap.set(award, { opacity: 0, y: 24 });
-        tl.to(award, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, '>-0.1');
-      }
-    }
-
     /* ---- Scene 6: timeline line draws down as you scroll ---- */
     const line = document.querySelector<HTMLElement>('[data-timeline-line]');
     if (line) {

@@ -27,7 +27,6 @@ function go(hash: string) {
 const commands: Cmd[] = [
   { id: 'home', label: 'Go to top', keywords: 'hero home', run: (c) => { go('#top'); c(); } },
   { id: 'focus', label: 'Focus areas', keywords: 'appsec api ai', run: (c) => { go('#focus'); c(); } },
-  { id: 'ctf', label: 'LLM CTF highlight', keywords: 'ctf 5th', run: (c) => { go('#ctf'); c(); } },
   { id: 'projects', label: 'Projects & tools', keywords: 'work repos github', run: (c) => { go('#projects'); c(); } },
   { id: 'experience', label: 'Experience & news', keywords: 'timeline orbia', run: (c) => { go('#timeline'); c(); } },
   { id: 'writing', label: 'Writing', keywords: 'blog posts medium', run: (c) => { go('#writing'); c(); } },
