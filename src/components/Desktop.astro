@@ -29,14 +29,20 @@ async function getChessStats() {
 }
 const chess = await getChessStats();
 
-// a calm middlegame snapshot for the board backdrop — [square index 0–63, glyph, colour]
+// Real position for the board backdrop (chess.com green/cream). Index 0 = a8,
+// 63 = h1. [square index, glyph, colour]. Last move highlighted on c7 → c4.
 const chessPieces: Array<[number, string, 'w' | 'b']> = [
-  [1, '♜', 'b'], [4, '♚', 'b'], [6, '♞', 'b'],
-  [11, '♟', 'b'], [13, '♟', 'b'], [20, '♝', 'b'], [27, '♛', 'b'],
-  [36, '♟', 'w'], [42, '♞', 'w'], [45, '♝', 'w'],
-  [51, '♛', 'w'], [52, '♟', 'w'], [58, '♜', 'w'], [60, '♚', 'w'],
+  [5, '♚', 'b'], [7, '♜', 'b'],                                   // rank 8: Kf8, Rh8
+  [13, '♝', 'b'], [14, '♟', 'b'], [15, '♟', 'b'],                 // rank 7: Bf7, g7, h7
+  [16, '♞', 'w'], [17, '♟', 'b'], [19, '♞', 'b'], [21, '♟', 'b'], // rank 6: Na6, b6, Nd6, f6
+  [27, '♟', 'w'], [29, '♟', 'w'],                                 // rank 5: d5, f5
+  [32, '♟', 'w'], [33, '♟', 'w'], [34, '♛', 'b'], [38, '♟', 'w'], // rank 4: a4, b4, Qc4, g4
+  [47, '♟', 'w'],                                                 // rank 3: h3
+  [53, '♛', 'w'],                                                 // rank 2: Qf2
+  [60, '♜', 'w'], [62, '♚', 'w'],                                 // rank 1: Re1, Kg1
 ];
 const pieceAt = new Map(chessPieces.map(([i, p, c]) => [i, { p, c }]));
+const chessHighlights = new Set([10, 34]); // c7, c4
 ---
 
 <section id="desktop" class="desktop section" data-drag-bounds>
@@ -70,8 +76,9 @@ const pieceAt = new Map(chessPieces.map(([i, p, c]) => [i, { p, c }]));
             const r = Math.floor(i / 8);
             const dark = (r + i) % 2 === 1;
             const cell = pieceAt.get(i);
+            const hot = chessHighlights.has(i);
             return (
-              <span class={`csq ${dark ? 'csq--d' : ''}`}>
+              <span class={`csq ${dark ? 'csq--d' : ''} ${hot ? 'csq--hot' : ''}`}>
                 {cell && <span class={`cpiece cpiece--${cell.c}`}>{cell.p}</span>}
               </span>
             );
@@ -257,15 +264,17 @@ const pieceAt = new Map(chessPieces.map(([i, p, c]) => [i, { p, c }]));
     grid-template-columns: repeat(8, 1fr);
     aspect-ratio: 1;
   }
-  .csq { display: grid; place-items: center; background: #3a3f45; }
-  .csq--d { background: #23272c; }
+  /* chess.com board palette */
+  .csq { display: grid; place-items: center; background: #ebecd0; }
+  .csq--d { background: #739552; }
+  .csq--hot { background: #f7ec74; }           /* last-move, light square */
+  .csq--d.csq--hot { background: #bbcb45; }     /* last-move, dark square */
   .cpiece {
-    font-size: clamp(0.8rem, 3.6vw, 1.15rem);
+    font-size: clamp(0.85rem, 3.8vw, 1.2rem);
     line-height: 1;
-    filter: drop-shadow(0 1px 1px rgba(0,0,0,.5));
   }
-  .cpiece--w { color: #f5f5f5; }
-  .cpiece--b { color: #0b0b0b; }
+  .cpiece--w { color: #fafafa; text-shadow: 0 0 1px rgba(0,0,0,.6), 0 1px 1px rgba(0,0,0,.35); }
+  .cpiece--b { color: #3b3938; text-shadow: 0 0 1px rgba(0,0,0,.3); }
   /* live ratings strip, glassed over the foot of the board */
   .chesscard__bar {
     position: absolute;
