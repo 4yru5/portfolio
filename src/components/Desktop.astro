@@ -114,7 +114,7 @@ const chessHighlights = new Set([10, 34]); // c7, c4
       <div class="deskwin__body surf mono">
         <p>swell: 3ft · clean</p>
         <p>wind: offshore</p>
-        <p class="surf__wave" aria-hidden="true">🌊 ~~~~~~~~</p>
+        <p class="surf__wave" aria-hidden="true">~~~~~~~~~~</p>
       </div>
     </div>
 
@@ -170,9 +170,6 @@ const chessHighlights = new Set([10, 34]); // c7, c4
       <figcaption class="deskwin__cap mono">surfing</figcaption>
     </figure>
 
-    <!-- kaomoji stickers -->
-    <span class="sticker sticker--1 mono" aria-hidden="true">¯\\_(ツ)_/¯</span>
-    <span class="sticker sticker--2 mono" aria-hidden="true">(•_•) → (⌐■_■)</span>
   </div>
 </section>
 
@@ -310,14 +307,6 @@ const chessHighlights = new Set([10, 34]); // c7, c4
   .surf p { font-size: var(--fs-sm); color: var(--ink-2); margin: 0 0 0.35rem; }
   .surf__wave { color: var(--accent); }
 
-  /* ---- stickers ---- */
-  .sticker { color: var(--ink-3); font-size: var(--fs-sm); }
-  @media (min-width: 860px) {
-    .sticker { position: absolute; }
-    .sticker--1 { top: 70px; left: 85%; transform: rotate(-6deg); }
-    .sticker--2 { top: 470px; left: 82%; transform: rotate(4deg); }
-  }
-  @media (max-width: 859px) { .sticker { display: inline-block; margin: 0.5rem 1rem 0 0; } }
 </style>
 
 <script>
