@@ -4,22 +4,14 @@
 // monospace; CTF wins marked with a flag icon; highlights use the accent.
 import { getCollection } from 'astro:content';
 
-const entries = (await getCollection('timeline')).sort((a, b) =>
-  b.data.date.localeCompare(a.data.date)
-);
-
-const icon: Record<string, string> = {
-  ctf: '⚑',
-  award: '★',
-  role: '▰',
-  education: '◇',
-};
+// Keep the author-defined order from timeline.json (Alice → Orbia intern → TEM).
+const entries = await getCollection('timeline');
 ---
 
 <section id="timeline" class="timeline section">
   <div class="wrap">
-    <p class="eyebrow reveal">experience &amp; news</p>
-    <h2 class="timeline__title reveal">Track record, 2019 to now.</h2>
+    <p class="eyebrow reveal">experience</p>
+    <h2 class="timeline__title reveal">Experience</h2>
 
     <ol class="timeline__list">
       <span class="timeline__rail" aria-hidden="true">
@@ -27,17 +19,25 @@ const icon: Record<string, string> = {
       </span>
       {entries.map((e) => (
         <li class={`tl ${e.data.highlight ? 'tl--hot' : ''} reveal`}>
-          <span class="tl__node mono" aria-hidden="true">{icon[e.data.kind] ?? '•'}</span>
-          <time class="tl__date mono" datetime={e.data.date}>{e.data.date}</time>
+          <span class="tl__node" aria-hidden="true"></span>
+          <time class="tl__date mono" datetime={e.data.date}>{e.data.period ?? e.data.date}</time>
           <div class="tl__body">
             <h3 class="tl__role">
-              {e.data.link ? (
-                <a href={e.data.link} target="_blank" rel="noopener">{e.data.title} ↗</a>
-              ) : (
-                e.data.title
+              {e.data.org && <span class="tl__org">{e.data.org}</span>}
+              {e.data.org && e.data.title && <span class="tl__sep">,</span>}
+              {e.data.title && (
+                e.data.link ? (
+                  <a class="tl__title-link" href={e.data.link} target="_blank" rel="noopener">{e.data.title} ↗</a>
+                ) : (
+                  <span class="tl__title">{e.data.title}</span>
+                )
               )}
             </h3>
-            {e.data.org && <p class="tl__org">{e.data.org}</p>}
+            {e.data.points.length > 0 && (
+              <ul class="tl__points">
+                {e.data.points.map((p) => <li>{p}</li>)}
+              </ul>
+            )}
           </div>
         </li>
       ))}
@@ -67,26 +67,68 @@ const icon: Record<string, string> = {
   .tl {
     position: relative;
     display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 0 1.5rem;
-    padding: 0 0 1.75rem 2.25rem;
+    grid-template-columns: 130px 1fr;
+    gap: 0 1.75rem;
+    padding: 0 0 2.5rem 2.25rem;
   }
-  @media (max-width: 560px) {
-    .tl { grid-template-columns: 1fr; gap: 0.25rem; }
+  .tl:last-child { padding-bottom: 0.5rem; }
+  @media (max-width: 620px) {
+    .tl { grid-template-columns: 1fr; gap: 0.35rem; }
   }
   .tl__node {
     position: absolute;
-    left: 0; top: 2px;
-    width: 16px; height: 16px;
-    display: grid; place-items: center;
-    font-size: 0.7rem;
-    color: var(--ink-3);
+    left: 1px; top: 7px;
+    width: 14px; height: 14px;
     background: var(--bg);
+    border: 2px solid var(--line);
     border-radius: 50%;
   }
-  .tl--hot .tl__node { color: var(--accent); }
-  .tl__date { color: var(--ink-3); font-size: var(--fs-sm); padding-top: 0.1rem; }
-  .tl__role { font-size: var(--fs-md); font-weight: 600; }
-  .tl--hot .tl__role { color: var(--accent); }
-  .tl__org { color: var(--ink-3); font-size: var(--fs-sm); margin: 0.1rem 0 0; }
+  .tl--hot .tl__node { border-color: var(--accent); background: var(--accent); }
+
+  .tl__date {
+    color: var(--ink-3);
+    font-size: var(--fs-sm);
+    padding-top: 0.3rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+  }
+  .tl--hot .tl__date { color: var(--accent); }
+
+  /* heading: bold org, lighter role — resume style */
+  .tl__role {
+    font-size: var(--fs-md);
+    font-weight: 400;
+    line-height: var(--lh-snug);
+    margin: 0;
+  }
+  .tl__org { font-weight: 700; color: var(--ink); }
+  .tl--hot .tl__org { color: var(--accent); }
+  .tl__sep { color: var(--ink-3); margin-right: 0.15ch; }
+  .tl__title,
+  .tl__title-link { color: var(--ink-3); }
+  .tl__title-link:hover { color: var(--accent); }
+
+  .tl__points {
+    list-style: none;
+    margin: 0.7rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+    max-width: 64ch;
+  }
+  .tl__points li {
+    position: relative;
+    padding-left: 1.3rem;
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-base);
+  }
+  .tl__points li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--ink-4);
+    font-size: 0.85em;
+  }
+  .tl--hot .tl__points li::before { color: var(--accent); }
 </style>

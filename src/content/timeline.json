@@ -1,59 +1,44 @@
 [
   {
-    "id": "llm-ctf-5th",
-    "date": "2026-02",
-    "kind": "ctf",
-    "title": "5th globally — LLM Capture the Flag",
-    "org": "Global LLM CTF",
-    "link": "https://medium.com/@4yru5/llm-ctf",
-    "highlight": true
+    "id": "alice-ai-redteam",
+    "date": "2026-03",
+    "period": "2026",
+    "kind": "role",
+    "title": "AI Red Team Researcher — Freelance",
+    "org": "Alice",
+    "points": [
+      "Adversarial LLM red-teaming — built prompt-injection, jailbreak and model-steering scenarios to probe guardrails, system-prompt leakage and data exposure.",
+      "Built automated harnesses for adversarial prompt execution, response capture and regression testing across attack scenarios.",
+      "Mapped findings to the OWASP Top 10 for LLMs with severity ratings, repro steps and mitigation guidance — awarded Best Technical Write-up."
+    ],
+    "highlight": false
   },
   {
-    "id": "orbia-senior-analyst",
-    "date": "2026-01",
+    "id": "orbia-intern",
+    "date": "2025-12",
+    "period": "2025 — 26",
     "kind": "role",
-    "title": "Senior Analyst, Threat Exposure Management",
+    "title": "Security Analyst Intern",
     "org": "Orbia",
+    "points": [
+      "Built end-to-end Tines SOAR automations for threat monitoring, alert triage, vulnerability management and false-positive reclassification.",
+      "Triaged bug-bounty and pentest reports in Intigriti — validating vulnerabilities, PoCs and remediation.",
+      "Owned Assetnote and Tenable — monitored sensor health, ran weekly scans and tracked remediation with stakeholders."
+    ],
     "highlight": false
   },
   {
-    "id": "bugbounty-critical-2024",
-    "date": "2024-06",
-    "kind": "award",
-    "title": "Bug bounty — critical access-control finding disclosed",
-    "org": "Private program",
-    "highlight": false
-  },
-  {
-    "id": "web-ctf-top25",
-    "date": "2023-09",
-    "kind": "ctf",
-    "title": "Top-25 finish — web exploitation CTF",
-    "org": "CTF",
-    "highlight": false
-  },
-  {
-    "id": "first-cve",
-    "date": "2022-05",
-    "kind": "award",
-    "title": "First CVE credited",
-    "org": "MITRE",
-    "highlight": false
-  },
-  {
-    "id": "security-analyst",
-    "date": "2021-03",
+    "id": "orbia-tem-analyst",
+    "date": "2026-07",
+    "period": "2026 — present",
     "kind": "role",
-    "title": "Security Analyst",
-    "org": "Earlier role",
-    "highlight": false
-  },
-  {
-    "id": "started-research",
-    "date": "2019-06",
-    "kind": "education",
-    "title": "Started in security research",
-    "org": "",
-    "highlight": false
+    "title": "Threat Exposure Management Analyst",
+    "org": "Orbia",
+    "points": [
+      "Built an event-driven zero-day / N-day pipeline in Tines ingesting Assetnote and CrowdStrike alerts across internet-facing assets, auto-raising ServiceNow tickets to cut time-to-remediation.",
+      "Integrated CrowdStrike Falcon Fusion SOAR to detect cloud misconfiguration drift and shipped 5 automated response-and-remediation workflows.",
+      "Own quarterly SAP and internet-facing pentests on Intigriti end to end — scope, retests and variant analysis — plus white-box tests on internal apps."
+    ],
+    "highlight": true
   }
 ]

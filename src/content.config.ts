@@ -34,10 +34,12 @@ const writing = defineCollection({
 const timeline = defineCollection({
   loader: file('./src/content/timeline.json'),
   schema: z.object({
-    date: z.string(), // '2026-03'
+    date: z.string(), // '2026-03' — used for sorting / datetime
+    period: z.string().optional(), // display label, e.g. '2026 — present'
     kind: z.enum(['role', 'ctf', 'award', 'education']),
     title: z.string(),
     org: z.string().optional(),
+    points: z.array(z.string()).default([]),
     link: z.string().url().optional(),
     highlight: z.boolean().default(false),
   }),
