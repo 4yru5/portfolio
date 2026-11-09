@@ -15,8 +15,8 @@
   },
   {
     "id": "orbia-intern",
-    "date": "2025-12",
-    "period": "2025 — 26",
+    "date": "2026-01",
+    "period": "2026",
     "kind": "role",
     "title": "Security Analyst Intern",
     "org": "Orbia",
@@ -43,8 +43,8 @@
   },
   {
     "id": "hackerone-researcher",
-    "date": "2022-01",
-    "period": "ongoing",
+    "date": "2024-01",
+    "period": "2024 — 2025",
     "kind": "role",
     "title": "Independent Vulnerability Researcher",
     "org": "HackerOne",
