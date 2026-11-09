@@ -1,8 +1,9 @@
 ---
 // Scene 8 — After hours / Miscellany (plan §4).
 // The person behind the work: a Rubik's cube that scrambles & solves on click,
-// a chess puzzle window, a "now playing" guitar widget, a surf note, kaomoji
-// stickers. HeyClicky playfulness is concentrated here (plan §2).
+// a chess puzzle window, a "now playing" guitar widget, a surf note, a kayak
+// photo, kaomoji stickers. HeyClicky playfulness is concentrated here (plan §2).
+import { withBase } from '../lib/base';
 ---
 
 <section id="desktop" class="desktop section" data-drag-bounds>
@@ -68,6 +69,23 @@
       </div>
     </div>
 
+    <!-- kayak photo (hobby) — heyclicky-style media window with a filename caption -->
+    <figure class="deskwin deskwin--photo" data-drag>
+      <div class="win deskwin__frame">
+        <div class="win__bar"><span class="win__lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="win__title">sunset-paddle.jpg</span></div>
+        <img
+          class="deskwin__photo"
+          src={withBase('/media/kayak-sunset.jpg')}
+          width="1000"
+          height="545"
+          loading="lazy"
+          decoding="async"
+          alt="Paddling a kayak into the sunset on the Kerala backwaters, paddle held overhead."
+        />
+      </div>
+      <figcaption class="deskwin__cap mono">paddling into the sunset 🛶</figcaption>
+    </figure>
+
     <!-- kaomoji stickers -->
     <span class="sticker sticker--1 mono" aria-hidden="true">¯\\_(ツ)_/¯</span>
     <span class="sticker sticker--2 mono" aria-hidden="true">(•_•) → (⌐■_■)</span>
@@ -93,9 +111,16 @@
     .deskwin--chess { top: 30px; left: 34%; }
     .deskwin--music { top: 280px; left: 8%; }
     .deskwin--surf { top: 250px; left: 48%; }
+    .deskwin--photo { top: 8px; left: 62%; transform: rotate(1.5deg); }
   }
   .deskwin { width: min(300px, 90vw); }
   .deskwin__body { padding: 1rem; background: var(--panel); }
+
+  /* ---- kayak photo (hobby) ---- */
+  .deskwin--photo { margin: 0; }
+  .deskwin__frame { overflow: hidden; }
+  .deskwin__photo { display: block; width: 100%; height: auto; }
+  .deskwin__cap { margin: 0.5rem 0 0; text-align: center; font-size: var(--fs-xs); color: var(--ink-4); }
 
   /* ---- Rubik's cube (CSS 3D) ---- */
   .cube-stage { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; padding: 1.75rem 1rem 1.25rem; perspective: 600px; }
@@ -165,7 +190,7 @@
   .sticker { color: var(--ink-3); font-size: var(--fs-sm); }
   @media (min-width: 860px) {
     .sticker { position: absolute; }
-    .sticker--1 { top: 150px; left: 70%; transform: rotate(-6deg); }
+    .sticker--1 { top: 300px; left: 84%; transform: rotate(-6deg); }
     .sticker--2 { top: 420px; left: 64%; transform: rotate(4deg); }
   }
   @media (max-width: 859px) { .sticker { display: inline-block; margin: 0.5rem 1rem 0 0; } }
