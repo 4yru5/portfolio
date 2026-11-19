@@ -132,6 +132,22 @@ const chessHighlights = new Set([10, 34]); // c7, c4
       <figcaption class="deskwin__cap mono">surfing</figcaption>
     </figure>
 
+    <!-- guitar photo (hobby) — on stage with a bass, label beneath -->
+    <figure class="deskwin deskwin--guitar" data-drag>
+      <div class="deskwin__frame">
+        <img
+          class="deskwin__photo"
+          src={withBase('/media/guitar.jpg')}
+          width="1000"
+          height="775"
+          loading="lazy"
+          decoding="async"
+          alt="Playing bass guitar on stage under teal light beams, a mandala projection to the side."
+        />
+      </div>
+      <figcaption class="deskwin__cap mono">guitarist</figcaption>
+    </figure>
+
   </div>
 </section>
 
@@ -154,12 +170,14 @@ const chessHighlights = new Set([10, 34]); // c7, c4
     .deskwin--photo { top: 0; left: 40%; transform: rotate(1.5deg); }
     .deskwin--surfing { top: 318px; left: 6%; transform: rotate(1deg); }
     .deskwin--video { top: 300px; left: 44%; transform: rotate(-1.5deg); }
+    .deskwin--guitar { top: 150px; right: 2%; transform: rotate(-1deg); }
   }
   .deskwin { width: min(300px, 90vw); }
 
   /* ---- kayak photo + karting video + surfing photo (hobbies) ---- */
   /* bare rounded-corner media (no title bar) with a terminal-style label beneath */
-  .deskwin--photo, .deskwin--video, .deskwin--surfing { margin: 0; }
+  .deskwin--photo, .deskwin--video, .deskwin--surfing, .deskwin--guitar { margin: 0; }
+  .deskwin--guitar { width: min(260px, 86vw); }
   .deskwin--video, .deskwin--surfing { width: min(220px, 70vw); }
   .deskwin__frame {
     overflow: hidden;
